@@ -16,15 +16,26 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
+  // Home page has a light cream hero — use dark text; other pages have dark heroes
+  const isHome = location.pathname === '/';
+  const isLightHero = isHome || location.pathname.startsWith('/catalog/');
+
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
+    const handleScroll = () => setScrolled(window.scrollY > 30);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   useEffect(() => {
     setMobileOpen(false);
+    window.scrollTo(0, 0);
   }, [location.pathname]);
+
+  const logoColor = scrolled ? 'text-coeur-50' : isLightHero ? 'text-coeur-900' : 'text-coeur-50';
+  const logoSubColor = scrolled ? 'text-coeur-300' : isLightHero ? 'text-coeur-600' : 'text-coeur-300';
+  const linkColor = scrolled ? 'text-coeur-200' : isLightHero ? 'text-coeur-700' : 'text-coeur-200';
+  const linkHoverColor = 'hover:text-gold-400';
+  const mobileIconColor = scrolled ? 'text-coeur-200' : isLightHero ? 'text-coeur-700' : 'text-coeur-200';
 
   return (
     <div className="min-h-screen bg-coeur-50 font-sans">
@@ -33,16 +44,18 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
             ? 'bg-coeur-900/95 backdrop-blur-md shadow-lg py-3'
-            : 'bg-transparent py-5'
+            : isLightHero
+              ? 'bg-transparent py-5'
+              : 'bg-gradient-to-b from-black/20 to-transparent py-5'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex flex-col leading-none group">
-            <span className="font-serif text-2xl text-coeur-50 tracking-wide group-hover:text-gold-400 transition-colors duration-300">
+            <span className={`font-serif text-2xl tracking-wide group-hover:text-gold-400 transition-colors duration-300 ${logoColor}`}>
               CoeurDesire
             </span>
-            <span className="text-[10px] uppercase tracking-widest text-coeur-300 group-hover:text-gold-400 transition-colors duration-300">
+            <span className={`text-[10px] uppercase tracking-widest group-hover:text-gold-400 transition-colors duration-300 ${logoSubColor}`}>
               Beauty & Healing
             </span>
           </Link>
@@ -57,7 +70,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                   key={link.path}
                   to={link.path}
                   className={`text-sm uppercase tracking-widest transition-all duration-300 relative group ${
-                    isActive ? 'text-gold-400' : 'text-coeur-200 hover:text-gold-400'
+                    isActive ? 'text-gold-400' : `${linkColor} ${linkHoverColor}`
                   }`}
                 >
                   {link.name}
@@ -71,7 +84,11 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             })}
             <Link
               to="/contact"
-              className="ml-2 px-5 py-2 bg-coeur-700 hover:bg-coeur-600 text-coeur-50 text-sm uppercase tracking-widest rounded-full transition-all duration-300 hover:shadow-lg"
+              className={`ml-2 px-5 py-2 text-sm uppercase tracking-widest rounded-full transition-all duration-300 hover:shadow-lg ${
+                scrolled || !isLightHero
+                  ? 'bg-coeur-700 hover:bg-coeur-600 text-coeur-50'
+                  : 'bg-coeur-800 hover:bg-coeur-700 text-white'
+              }`}
             >
               Book Now
             </Link>
@@ -80,7 +97,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
           {/* Mobile Menu Toggle */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden text-coeur-200 hover:text-gold-400 transition-colors duration-300 p-1"
+            className={`md:hidden ${mobileIconColor} hover:text-gold-400 transition-colors duration-300 p-1`}
             aria-label="Toggle menu"
           >
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}

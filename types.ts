@@ -25,6 +25,7 @@ export interface ServiceItem {
   description: string;
   icon: LucideIcon;
   image: string;
+  cardBg?: string;
   price?: string;
   inPerson?: boolean;
   comingSoon?: boolean;

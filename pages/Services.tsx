@@ -43,15 +43,25 @@ const Services: React.FC = () => {
                   </div>
                 )}
 
-                <div className={`relative h-52 overflow-hidden ${service.comingSoon ? 'grayscale-[40%]' : ''}`}>
-                  <img src={service.image} alt={service.title} className="w-full h-full object-cover" />
-                  <div className={`absolute inset-0 bg-gradient-to-t ${service.comingSoon ? 'from-coeur-900/80 via-coeur-900/40' : 'from-coeur-900/60 to-transparent'}`} />
-                  <div className="absolute bottom-5 left-6 flex items-center gap-3">
-                    <div className="w-10 h-10 bg-coeur-400/80 backdrop-blur-sm rounded-full flex items-center justify-center text-white">
-                      <service.icon size={18} />
-                    </div>
-                    <h2 className="text-white font-serif text-2xl">{service.title}</h2>
+                <div
+                  className={`relative h-52 overflow-hidden ${service.comingSoon ? 'saturate-50' : ''}`}
+                  style={{ background: service.cardBg || 'linear-gradient(145deg, #f5ede0, #d4a96a)' }}
+                >
+                  {/* Decorative rings */}
+                  <div className="absolute inset-0 opacity-20 pointer-events-none">
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 rounded-full border border-white/50" />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-36 rounded-full border border-white/40" />
+                    <div className="absolute top-4 right-10 w-16 h-16 rounded-full border border-white/30" />
                   </div>
+                  {/* Center icon */}
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/40">
+                    <service.icon size={28} className="text-white drop-shadow" />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                  <div className="absolute bottom-5 left-6 flex items-center gap-3">
+                    <h2 className="text-white font-serif text-2xl drop-shadow">{service.title}</h2>
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/10 pointer-events-none" />
                 </div>
 
                 <div className="p-7">
