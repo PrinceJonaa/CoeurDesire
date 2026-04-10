@@ -1,4 +1,5 @@
 import React from 'react';
+import { SEO } from '../components/SEO';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ANIMATION_VARIANTS, PRODUCTS, TESTIMONIALS } from '../constants';
 import { ArrowRight, Star, Sparkles } from 'lucide-react';
@@ -11,7 +12,9 @@ const Home = () => {
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
   return (
-    <div className="overflow-hidden">
+    <>
+      <SEO title="Home" description="CoeurDesire is a luxury beauty and wellness brand offering natural hair care oils, scented products, and self-love rituals. Ships nationwide." url="https://coeurdesire.com/" />
+      <div className="overflow-hidden">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
@@ -194,7 +197,8 @@ const Home = () => {
           </div>
         </div>
       </section>
-    </div>
+    >    
+</>
   );
 };
 
