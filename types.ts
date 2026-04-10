@@ -1,5 +1,23 @@
 import { LucideIcon } from "lucide-react";
 
+export interface ProductItem {
+  id: string;
+  slug: string;
+  name: string;
+  category: 'Oil' | 'Hair' | 'Accessory';
+  price: string;
+  priceNum: number;
+  image: string;
+  images?: string[];
+  description: string;
+  longDescription: string;
+  ingredients: string[];
+  howToUse: string;
+  benefits: string[];
+  inStock: boolean;
+  badge?: string;
+}
+
 export interface ServiceItem {
   id: string;
   title: string;
@@ -7,15 +25,8 @@ export interface ServiceItem {
   icon: LucideIcon;
   image: string;
   price?: string;
-}
-
-export interface ProductItem {
-  id: string;
-  name: string;
-  category: 'Oil' | 'Hair' | 'Accessory';
-  price: string;
-  image: string;
-  description: string;
+  inPerson?: boolean;
+  comingSoon?: boolean;
 }
 
 export interface Testimonial {
@@ -28,6 +39,7 @@ export interface Testimonial {
 
 export enum PageRoute {
   HOME = '/',
+  CATALOG = '/catalog',
   SERVICES = '/services',
   MISSION = '/mission',
   CONTACT = '/contact',
