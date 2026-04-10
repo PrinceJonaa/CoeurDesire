@@ -1,7 +1,9 @@
 import React from 'react';
 import { SEO } from '../components/SEO';
 import { motion } from 'framer-motion';
-import { Heart, Sun, Feather } from 'lucide-react';
+import { Heart, Sun, Feather, Leaf, Sparkles, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ANIMATION_VARIANTS } from '../constants';
 
 const Mission = () => {
   return (
@@ -111,8 +113,115 @@ const Mission = () => {
             </div>
             <div className="absolute bottom-10 -left-10 bg-white p-6 rounded-xl shadow-lg z-20 max-w-xs">
               <p className="font-serif italic text-coeur-800 text-lg">"Beauty is the illumination of your soul."</p>
-              <p className="text-xs font-bold text-coeur-400 mt-2 uppercase">— Founder, CoeurDesire</p>
+              <p className="text-xs font-bold text-coeur-400 mt-2 uppercase">Founder, CoeurDesire</p>
             </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── Values Section ────────────────────────────────────────── */}
+      <section className="py-24 relative overflow-hidden" style={{ background: 'linear-gradient(160deg, #3d2010 0%, #2a1508 100%)' }}>
+        <motion.div
+          animate={{ scale: [1, 1.15, 1], opacity: [0.1, 0.18, 0.1] }}
+          transition={{ duration: 12, repeat: Infinity }}
+          className="absolute -top-24 -right-24 w-80 h-80 rounded-full blur-3xl pointer-events-none"
+          style={{ background: '#c9935a' }}
+        />
+        <div className="max-w-5xl mx-auto px-6 relative z-10">
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            variants={ANIMATION_VARIANTS.container}
+            className="text-center mb-16"
+          >
+            <motion.div variants={ANIMATION_VARIANTS.item} className="inline-flex items-center gap-2 mb-4">
+              <div className="h-px w-10 bg-coeur-600" /><Sparkles size={14} className="text-coeur-400" /><div className="h-px w-10 bg-coeur-600" />
+            </motion.div>
+            <motion.h2 variants={ANIMATION_VARIANTS.item} className="text-4xl md:text-5xl font-serif text-white mb-4">Our Commitments</motion.h2>
+            <motion.p variants={ANIMATION_VARIANTS.item} className="text-coeur-300 max-w-xl mx-auto leading-relaxed">
+              Every product we create is guided by three non-negotiable principles.
+            </motion.p>
+          </motion.div>
+
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: '-60px' }}
+            variants={ANIMATION_VARIANTS.container}
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          >
+            {[
+              {
+                icon: Leaf,
+                title: 'Plant-Based Purity',
+                desc: 'We source only botanicals, plant-derived oils, and nature-powered actives. No parabens, sulfates, synthetic dyes, or petroleum by-products. Ever.',
+              },
+              {
+                icon: Heart,
+                title: 'Sacred Intention',
+                desc: 'Each batch is hand-poured in a cleansed space with deliberate intention. We believe the energy that goes into a product is carried into the body that receives it.',
+              },
+              {
+                icon: Sun,
+                title: 'Radical Self-Love',
+                desc: 'Our formulas are not about masking or fixing. They are an invitation to honor your body as it is, and to build a ritual of reverence around your natural beauty.',
+              },
+            ].map(({ icon: Icon, title, desc }) => (
+              <motion.div
+                key={title}
+                variants={ANIMATION_VARIANTS.item}
+                className="bg-white/8 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-white/20 transition-colors duration-300"
+              >
+                <div className="w-12 h-12 rounded-full flex items-center justify-center mb-5"
+                  style={{ background: 'linear-gradient(135deg, rgba(201,147,90,0.3), rgba(184,137,74,0.15))' }}>
+                  <Icon size={22} className="text-coeur-300" />
+                </div>
+                <h3 className="font-serif text-xl text-white mb-3">{title}</h3>
+                <p className="text-coeur-300 text-sm leading-relaxed">{desc}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── Final CTA ─────────────────────────────────────────────── */}
+      <section className="py-20 bg-white">
+        <div className="max-w-2xl mx-auto px-6 text-center">
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            variants={ANIMATION_VARIANTS.container}
+          >
+            <motion.p variants={ANIMATION_VARIANTS.item} className="text-xs uppercase tracking-[0.22em] text-coeur-500 mb-3">Live the Mission</motion.p>
+            <motion.h2 variants={ANIMATION_VARIANTS.item} className="text-4xl md:text-5xl font-serif text-coeur-900 mb-5 leading-tight">
+              Begin Your Ritual
+            </motion.h2>
+            <motion.p variants={ANIMATION_VARIANTS.item} className="text-stone-500 mb-8 leading-relaxed">
+              Every bottle is an act of self-love. Browse our handcrafted collection and find the ritual that is meant for you.
+            </motion.p>
+            <motion.div variants={ANIMATION_VARIANTS.item} className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/catalog">
+                <motion.button
+                  whileHover={{ scale: 1.04, boxShadow: '0 16px 40px rgba(184,137,74,0.3)' }}
+                  whileTap={{ scale: 0.97 }}
+                  className="flex items-center gap-2.5 px-10 py-4 rounded-full text-sm uppercase tracking-widest font-semibold text-white shadow-lg"
+                  style={{ background: 'linear-gradient(135deg, #6b4226, #4a2e18)' }}
+                >
+                  Shop the Collection <ArrowRight size={15} />
+                </motion.button>
+              </Link>
+              <Link to="/services">
+                <motion.button
+                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="flex items-center gap-2.5 px-10 py-4 rounded-full text-sm uppercase tracking-widest font-semibold border-2 border-coeur-300 text-coeur-700 hover:border-coeur-600 transition-colors"
+                >
+                  Explore Services
+                </motion.button>
+              </Link>
+            </motion.div>
           </motion.div>
         </div>
       </section>

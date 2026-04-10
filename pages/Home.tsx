@@ -139,7 +139,7 @@ const Home = () => {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.55 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center"
+              className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             >
               <Link to="/catalog">
                 <motion.button
@@ -243,7 +243,7 @@ const Home = () => {
                 Beauty as a Ritual
               </motion.h2>
               <motion.p variants={ANIMATION_VARIANTS.item} className="text-lg text-stone-500 leading-relaxed max-w-2xl mx-auto">
-                At <span className="font-semibold text-coeur-700">CoeurDesire</span>, we believe true beauty stems from deep self-love. Our products and consultations are not mere enhancements — they are invitations to honor the temple that is your body.
+                At <span className="font-semibold text-coeur-700">CoeurDesire</span>, we believe true beauty stems from deep self-love. Our products and consultations are invitations to honor the temple that is your body.
               </motion.p>
             </motion.div>
 
@@ -256,7 +256,7 @@ const Home = () => {
               className="grid grid-cols-1 md:grid-cols-3 gap-10 mt-16"
             >
               {[
-                { icon: '✦', title: 'Clean Ingredients', desc: 'Every formula is built on botanicals, plant oils, and nature-derived actives — nothing synthetic.' },
+                { icon: '✦', title: 'Clean Ingredients', desc: 'Every formula is built on botanicals, plant oils, and nature-derived actives. Nothing synthetic, ever.' },
                 { icon: '◎', title: 'Intentional Craft', desc: 'Small-batch, hand-poured in a sacred space. Each product carries the energy of the hands that made it.' },
                 { icon: '❋', title: 'Ships Nationwide', desc: 'Your ritual, delivered. Free shipping on orders over $75. Arrives in understated, compostable packaging.' },
               ].map((p) => (

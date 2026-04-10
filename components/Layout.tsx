@@ -15,6 +15,9 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const isCatalogPage = location.pathname === '/catalog';
+  const isProductDetailPage = location.pathname.startsWith('/catalog/');
+  const isServicesPage = location.pathname === '/services';
 
   // Pages with light backgrounds need dark nav text; dark-hero pages use light text
   const isHome = location.pathname === '/';
@@ -101,7 +104,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
           {/* Mobile Menu Toggle */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className={`md:hidden ${mobileIconColor} hover:text-gold-400 transition-colors duration-300 p-1`}
+            className={`md:hidden ${mobileOpen ? 'text-coeur-200' : mobileIconColor} hover:text-gold-400 transition-colors duration-300 p-1`}
             aria-label="Toggle menu"
           >
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}
@@ -150,23 +153,27 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       <main>{children}</main>
 
       {/* Mobile Sticky Shop Bar — only shown on mobile, hidden on md+ */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden pb-safe">
-        <div className="flex gap-3 px-4 py-3 bg-white/95 backdrop-blur-md border-t border-coeur-100 shadow-2xl">
-          <Link
-            to="/catalog"
-            className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-full text-xs uppercase tracking-widest font-bold text-white"
-            style={{ background: 'linear-gradient(135deg, #6b4226, #4a2e18)' }}
-          >
-            Shop Collection
-          </Link>
-          <Link
-            to="/contact"
-            className="flex items-center justify-center w-14 rounded-full border-2 border-coeur-300 text-coeur-700 text-xs font-medium shrink-0"
-          >
-            Book
-          </Link>
+      {!isCatalogPage && !isProductDetailPage && (
+        <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden pb-safe">
+          <div className="flex gap-3 px-4 py-3 bg-white/95 backdrop-blur-md border-t border-coeur-100 shadow-2xl">
+            {!isServicesPage && (
+              <Link
+                to="/catalog"
+                className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-full text-xs uppercase tracking-widest font-bold text-white"
+                style={{ background: 'linear-gradient(135deg, #6b4226, #4a2e18)' }}
+              >
+                Shop Collection
+              </Link>
+            )}
+            <Link
+              to="/contact"
+              className={`flex items-center justify-center ${isServicesPage ? 'flex-1 py-3.5' : 'w-14'} rounded-full border-2 border-coeur-300 text-coeur-700 text-xs font-medium shrink-0`}
+            >
+              Book Now
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Footer */}
       <footer className="bg-coeur-900 text-coeur-300">

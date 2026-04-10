@@ -170,7 +170,11 @@ const Catalog: React.FC = () => {
             variants={ANIMATION_VARIANTS.container}
             initial="hidden"
             animate="show"
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+            className={`grid grid-cols-1 gap-8 ${
+              filtered.length === 1 ? 'sm:max-w-md sm:mx-auto' :
+              filtered.length === 2 ? 'sm:grid-cols-2' :
+              'sm:grid-cols-2 lg:grid-cols-3'
+            }`}
           >
             {filtered.map((product) => (
               <motion.article

@@ -52,7 +52,7 @@ const Contact: React.FC = () => {
               <div className="relative z-10">
                 <h2 className="text-4xl font-serif mb-4">Let's Connect</h2>
                 <p className="text-coeur-200 mb-10 leading-relaxed">
-                  Whether you're inquiring about a product, requesting a custom blend, or just want to share your self-love journey — our heart is open to you.
+                  Whether you're inquiring about a product, requesting a custom blend, or just want to share your self-love journey, our heart is open to you.
                 </p>
                 <div className="space-y-6">
                   {[

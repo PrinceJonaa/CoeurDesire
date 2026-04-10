@@ -99,7 +99,7 @@ export const PRODUCTS: ProductItem[] = [
     hint: 'Rosehip · 24K Gold Mica · Bulgarian Rose',
     description: 'A radiance-boosting face and body elixir with a velvety rose petal finish.',
     longDescription:
-      'Rose Gold Elixir is our most precious formulation — a luminous, multi-use radiance oil that bridges the boundary between skincare and ritual. Pressed from Bulgarian rose petals and blended with 24K gold mica, rosehip seed oil, and sea buckthorn, this elixir delivers a warm, dewy glow that illuminates from within. Wear it alone over moisturizer for a lit-from-within finish, layer it with bronzer, or use it on décolletage and limbs for a golden body glow. The scent — a soft, true rose — lingers beautifully throughout the day.',
+      'Rose Gold Elixir is our most precious formulation: a luminous, multi-use radiance oil that bridges the boundary between skincare and ritual. Pressed from Bulgarian rose petals and blended with 24K gold mica, rosehip seed oil, and sea buckthorn, this elixir delivers a warm, dewy glow that illuminates from within. Wear it alone over moisturizer for a lit-from-within finish, layer it with bronzer, or use it on décolletage and limbs for a golden body glow. The scent is a soft, true rose that lingers beautifully throughout the day.',
     ingredients: [
       'Rosehip Seed Oil (Rosa canina)',
       'Marula Oil (Sclerocarya birrea)',
@@ -194,7 +194,7 @@ export const TESTIMONIALS: Testimonial[] = [
     id: '3',
     name: 'Soleil M.',
     role: 'Yoga Instructor',
-    text: 'I used the Rose Gold Elixir before a photoshoot and everyone asked what I was glowing from. It is not just an oil — it is a ritual. CoeurDesire understands sacred beauty.',
+    text: 'I used the Rose Gold Elixir before a photoshoot and everyone asked what I was glowing from. It is not just an oil. It is a ritual. CoeurDesire understands sacred beauty.',
     image: 'https://picsum.photos/seed/22/200/200',
   },
 ];
