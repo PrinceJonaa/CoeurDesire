@@ -23,8 +23,8 @@ const ProductDetail: React.FC = () => {
     );
   }
 
-  const images = product.images || [product.image];
   const related = PRODUCTS.filter((p) => p.id !== product.id).slice(0, 2);
+  const views = ['Front View', 'Detail', 'Texture'];
 
   return (
     <>
@@ -41,26 +41,49 @@ const ProductDetail: React.FC = () => {
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-12 lg:gap-20">
-            {/* Images */}
+            {/* Product Visual */}
             <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
-              <div className="relative aspect-square rounded-3xl overflow-hidden bg-white shadow-xl mb-4">
-                <AnimatePresence mode="wait">
-                  <motion.img key={activeImage} src={images[activeImage]} alt={product.name}
-                    initial={{ opacity: 0, scale: 1.05 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}
-                    className="w-full h-full object-cover" />
-                </AnimatePresence>
-                {product.badge && <div className="absolute top-5 left-5 bg-gold-500 text-white text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-full shadow">{product.badge}</div>}
-              </div>
-              {images.length > 1 && (
-                <div className="flex gap-3">
-                  {images.map((img, i) => (
-                    <button key={i} onClick={() => setActiveImage(i)}
-                      className={`w-20 h-20 rounded-xl overflow-hidden border-2 transition-all ${activeImage === i ? 'border-coeur-500 shadow-md' : 'border-transparent opacity-60 hover:opacity-100'}`}>
-                      <img src={img} alt="" className="w-full h-full object-cover" />
-                    </button>
-                  ))}
+              <div
+                className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl mb-4"
+                style={{ background: product.cardBg || 'linear-gradient(145deg, #f5ede0, #d4a96a)' }}
+              >
+                {/* Background rings */}
+                <div className="absolute inset-0 opacity-20 pointer-events-none">
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full border border-white/50" />
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full border border-white/40" />
+                  <div className="absolute top-12 right-16 w-24 h-24 rounded-full border border-white/30" />
+                  <div className="absolute bottom-16 left-12 w-16 h-16 rounded-full border border-white/25" />
                 </div>
-              )}
+                {/* Bottle silhouette — larger for detail view */}
+                <div className="absolute inset-0 flex items-center justify-center z-10">
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="w-8 h-10 bg-white/30 rounded-t-lg" />
+                    <div className="w-20 h-56 bg-white/20 rounded-full backdrop-blur-sm border border-white/35 shadow-inner" />
+                  </div>
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-black/10 pointer-events-none" />
+                {product.badge && (
+                  <div
+                    className="absolute top-5 left-5 text-white text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-full shadow z-20"
+                    style={{ background: 'linear-gradient(135deg, #c9935a, #a06838)' }}
+                  >
+                    {product.badge}
+                  </div>
+                )}
+              </div>
+              {/* View pills — decorative */}
+              <div className="flex gap-3">
+                {views.map((v, i) => (
+                  <button
+                    key={v}
+                    onClick={() => setActiveImage(i)}
+                    className={`flex-1 h-16 rounded-xl border-2 transition-all text-xs font-medium uppercase tracking-wider overflow-hidden ${activeImage === i ? 'border-coeur-500 shadow-md text-coeur-700' : 'border-transparent opacity-50 hover:opacity-80 text-stone-400'}`}
+                    style={{ background: product.cardBg || 'linear-gradient(145deg, #f5ede0, #d4a96a)', filter: activeImage === i ? 'none' : 'saturate(0.6)' }}
+                  >
+                    <span className="bg-white/60 backdrop-blur-sm px-2 py-1 rounded">{v}</span>
+                  </button>
+                ))}
+              </div>
             </motion.div>
 
             {/* Details */}
@@ -135,8 +158,12 @@ const ProductDetail: React.FC = () => {
                 {related.map((p) => (
                   <motion.div key={p.id} variants={ANIMATION_VARIANTS.item}>
                     <Link to={`/catalog/${p.slug}`} className="group flex gap-5 bg-white rounded-2xl p-5 shadow-md hover:shadow-lg transition-shadow">
-                      <div className="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 bg-coeur-50">
-                        <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <div
+                        className="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 flex items-center justify-center relative"
+                        style={{ background: p.cardBg || 'linear-gradient(145deg, #f5ede0, #d4a96a)' }}
+                      >
+                        <div className="w-5 h-12 bg-white/25 rounded-full border border-white/40" />
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/15 to-black/10" />
                       </div>
                       <div className="flex flex-col justify-center">
                         <span className="text-xs text-coeur-500 uppercase tracking-widest mb-1">{p.category}</span>

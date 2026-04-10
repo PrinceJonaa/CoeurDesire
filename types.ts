@@ -9,6 +9,7 @@ export interface ProductItem {
   priceNum: number;
   image: string;
   images?: string[];
+  cardBg?: string;
   description: string;
   longDescription: string;
   ingredients: string[];
