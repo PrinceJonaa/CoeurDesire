@@ -1,0 +1,43 @@
+name: Feature Request
+description: Suggest a new feature or improvement for CoeurDesire
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have an idea to make CoeurDesire more beautiful or functional? We'd love to hear it!
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the problem or gap this feature would address.
+      placeholder: As a visitor, I find it hard to...
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: Describe what you'd like to see added or changed.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Any alternative solutions or features you've considered?
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Design / UI
+        - New Page or Section
+        - Animations
+        - Performance
+        - Accessibility
+        - Mobile Experience
+        - Other
+    validations:
+      required: true
