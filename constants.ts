@@ -16,6 +16,7 @@ export const PRODUCTS: ProductItem[] = [
       'https://picsum.photos/seed/34/600/600',
     ],
     cardBg: 'linear-gradient(145deg, #f9ede0 0%, #f0d5ac 40%, #d4a96a 80%, #b8894a 100%)',
+    hint: 'Jojoba · Amber Resin · Frankincense',
     description: 'A warm, grounding body oil that melts into skin and soothes the senses.',
     longDescription:
       'Essence of Amber is a luxurious grounding body oil crafted to reconnect you with the earth and your deepest self. Infused with warm amber resin, rich jojoba, and healing botanicals, this oil sinks effortlessly into the skin, leaving behind a subtle golden glow and a sense of deep calm. Ideal for daily rituals, evening wind-downs, or moments when you need to return to your center. Each bottle is hand-poured in small batches and energetically cleansed before packaging.',
@@ -54,6 +55,7 @@ export const PRODUCTS: ProductItem[] = [
       'https://picsum.photos/seed/36/600/600',
     ],
     cardBg: 'linear-gradient(145deg, #e8f0f8 0%, #c8ddf0 40%, #9fc0e8 80%, #6fa0d8 100%)',
+    hint: 'Rose Hydrosol · Aloe · Silk Proteins',
     description: 'A lightweight curl-refreshing mist that revives definition and adds luminous shine.',
     longDescription:
       'Silk Hydration Mist is a botanically charged curl refresher designed for coils, waves, and textured hair that craves moisture between wash days. A fine mist of rose hydrosol, aloe vera, and silk amino acids envelops each strand in weightless hydration, reviving curl pattern and eliminating frizz without stiffness or buildup. Scented with a soft blend of white tea and jasmine, this mist transforms your refresh routine into a sensory ritual. Formulated without alcohol or silicones.',
@@ -94,6 +96,7 @@ export const PRODUCTS: ProductItem[] = [
       'https://picsum.photos/seed/38/600/600',
     ],
     cardBg: 'linear-gradient(145deg, #fce4e8 0%, #f0b8c4 40%, #e090a0 80%, #c86878 100%)',
+    hint: 'Rosehip · 24K Gold Mica · Bulgarian Rose',
     description: 'A radiance-boosting face and body elixir with a velvety rose petal finish.',
     longDescription:
       'Rose Gold Elixir is our most precious formulation — a luminous, multi-use radiance oil that bridges the boundary between skincare and ritual. Pressed from Bulgarian rose petals and blended with 24K gold mica, rosehip seed oil, and sea buckthorn, this elixir delivers a warm, dewy glow that illuminates from within. Wear it alone over moisturizer for a lit-from-within finish, layer it with bronzer, or use it on décolletage and limbs for a golden body glow. The scent — a soft, true rose — lingers beautifully throughout the day.',

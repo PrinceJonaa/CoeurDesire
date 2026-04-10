@@ -10,6 +10,7 @@ export interface ProductItem {
   image: string;
   images?: string[];
   cardBg?: string;
+  hint?: string;
   description: string;
   longDescription: string;
   ingredients: string[];

@@ -9,25 +9,47 @@ type FilterType = 'All' | 'Oil' | 'Hair' | 'Accessory';
 const FILTERS: FilterType[] = ['All', 'Oil', 'Hair'];
 
 // Product card gradient image
-const ProductCardImage = ({ cardBg, badge, category }: { cardBg?: string; badge?: string; category: string }) => (
+const ProductCardImage = ({ cardBg, badge, category, hint }: { cardBg?: string; badge?: string; category: string; hint?: string }) => (
   <div
     className="w-full h-full relative flex items-center justify-center overflow-hidden"
     style={{ background: cardBg || 'linear-gradient(145deg, #f5ede0, #d4a96a)' }}
   >
-    {/* Background rings */}
-    <div className="absolute inset-0 opacity-20 pointer-events-none">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full border border-white/50" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full border border-white/40" />
-      <div className="absolute top-6 right-8 w-16 h-16 rounded-full border border-white/30" />
-      <div className="absolute bottom-8 left-6 w-10 h-10 rounded-full border border-white/25" />
+    {/* Background decorative rings */}
+    <div className="absolute inset-0 opacity-25 pointer-events-none">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-52 h-52 rounded-full border border-white/60" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-36 rounded-full border border-white/45" />
+      <div className="absolute top-5 right-7 w-16 h-16 rounded-full border border-white/35" />
+      <div className="absolute bottom-10 left-5 w-10 h-10 rounded-full border border-white/30" />
     </div>
-    {/* Bottle silhouette */}
-    <div className="relative z-10 flex flex-col items-center gap-1.5">
-      <div className="w-5 h-6 bg-white/35 rounded-sm" />
-      <div className="w-12 h-28 bg-white/20 rounded-full backdrop-blur-sm border border-white/35 shadow-inner" />
+    {/* Radial glow behind bottle */}
+    <div
+      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 rounded-full pointer-events-none"
+      style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.30) 0%, transparent 70%)' }}
+    />
+    {/* Bottle silhouette — more detailed */}
+    <div className="relative z-10 flex flex-col items-center" style={{ marginTop: '-12px' }}>
+      {/* Cap */}
+      <div className="w-7 h-8 bg-white/40 rounded-t-lg rounded-b-sm border border-white/50 shadow-sm" />
+      {/* Neck */}
+      <div className="w-4 h-3 bg-white/35 border-x border-white/40" />
+      {/* Body */}
+      <div className="w-14 h-32 bg-white/20 rounded-2xl backdrop-blur-sm border border-white/40 shadow-lg relative overflow-hidden">
+        {/* Highlight stripe */}
+        <div className="absolute top-3 left-2 w-1.5 h-14 bg-white/30 rounded-full" />
+        {/* Label area */}
+        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 w-9 h-8 bg-white/20 rounded border border-white/30" />
+      </div>
     </div>
-    {/* Shimmer */}
-    <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-black/12 pointer-events-none" />
+    {/* Shimmer overlay */}
+    <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-black/15 pointer-events-none" />
+    {/* Ingredient hint pill */}
+    {hint && (
+      <div className="absolute bottom-4 left-0 right-0 flex justify-center z-20 px-4">
+        <div className="bg-white/80 backdrop-blur-sm text-[9px] font-semibold uppercase tracking-[0.14em] text-coeur-800 px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap">
+          {hint}
+        </div>
+      </div>
+    )}
   </div>
 );
 
@@ -158,7 +180,7 @@ const Catalog: React.FC = () => {
                     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                     className="w-full h-full"
                   >
-                    <ProductCardImage cardBg={product.cardBg} category={product.category} />
+                    <ProductCardImage cardBg={product.cardBg} badge={product.badge} category={product.category} hint={product.hint} />
                   </motion.div>
 
                   {/* Badge */}

@@ -1,0 +1,27 @@
+/* Global styles for CoeurDesire */
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  animation: marquee 28s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Smooth scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #fdf8f6; }
+::-webkit-scrollbar-thumb { background: #d2a594; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #b8816c; }
+
+/* Safe padding for mobile sticky bars */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}

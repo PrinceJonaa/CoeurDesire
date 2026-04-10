@@ -19,32 +19,49 @@ const BotanicalRing = ({ className }: { className?: string }) => (
 );
 
 // Product card gradient image placeholder
-const ProductCardImage = ({ cardBg, badge, category }: { cardBg?: string; badge?: string; category: string }) => (
+const ProductCardImage = ({ cardBg, badge, category, hint }: { cardBg?: string; badge?: string; category: string; hint?: string }) => (
   <div
     className="w-full h-full relative flex items-center justify-center overflow-hidden"
     style={{ background: cardBg || 'linear-gradient(145deg, #f5ede0, #d4a96a)' }}
   >
-    {/* Decorative circles */}
-    <div className="absolute inset-0 opacity-20">
-      <div className="absolute top-4 right-6 w-20 h-20 rounded-full border border-white/60" />
-      <div className="absolute bottom-8 left-4 w-12 h-12 rounded-full border border-white/40" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full border border-white/30" />
+    {/* Decorative rings */}
+    <div className="absolute inset-0 opacity-25 pointer-events-none">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-52 h-52 rounded-full border border-white/60" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-36 rounded-full border border-white/45" />
+      <div className="absolute top-5 right-7 w-16 h-16 rounded-full border border-white/35" />
+      <div className="absolute bottom-10 left-5 w-10 h-10 rounded-full border border-white/30" />
     </div>
-    {/* Central bottle silhouette */}
-    <div className="relative z-10 flex flex-col items-center gap-2">
-      <div className="w-10 h-24 bg-white/25 rounded-full backdrop-blur-sm border border-white/40 shadow-inner" />
-      <div className="w-6 h-3 bg-white/30 rounded-sm" />
+    {/* Radial glow */}
+    <div
+      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 rounded-full pointer-events-none"
+      style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.30) 0%, transparent 70%)' }}
+    />
+    {/* Bottle silhouette */}
+    <div className="relative z-10 flex flex-col items-center" style={{ marginTop: '-12px' }}>
+      <div className="w-7 h-8 bg-white/40 rounded-t-lg rounded-b-sm border border-white/50 shadow-sm" />
+      <div className="w-4 h-3 bg-white/35 border-x border-white/40" />
+      <div className="w-14 h-32 bg-white/20 rounded-2xl backdrop-blur-sm border border-white/40 shadow-lg relative overflow-hidden">
+        <div className="absolute top-3 left-2 w-1.5 h-14 bg-white/30 rounded-full" />
+        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 w-9 h-8 bg-white/20 rounded border border-white/30" />
+      </div>
     </div>
-    {/* Shimmer overlay */}
-    <div className="absolute inset-0 bg-gradient-to-br from-white/15 via-transparent to-black/10" />
+    {/* Shimmer */}
+    <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-black/15 pointer-events-none" />
+    {/* Badge */}
     {badge && (
-      <div className="absolute top-4 left-4 bg-amber-500/90 text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full shadow-md backdrop-blur-sm z-20">
+      <div className="absolute top-4 left-4 text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full shadow-md backdrop-blur-sm z-20"
+        style={{ background: 'linear-gradient(135deg, #c9935a, #a06838)' }}>
         {badge}
       </div>
     )}
-    <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm text-coeur-700 text-[10px] font-semibold uppercase tracking-widest px-2.5 py-1 rounded-full z-20">
-      {category}
-    </div>
+    {/* Ingredient hint */}
+    {hint && (
+      <div className="absolute bottom-4 left-0 right-0 flex justify-center z-20 px-4">
+        <div className="bg-white/80 backdrop-blur-sm text-[9px] font-semibold uppercase tracking-[0.14em] text-coeur-800 px-3 py-1.5 rounded-full shadow-sm whitespace-nowrap">
+          {hint}
+        </div>
+      </div>
+    )}
   </div>
 );
 
@@ -165,6 +182,48 @@ const Home = () => {
           </motion.div>
         </section>
 
+        {/* ── Trust Marquee ─────────────────────────────────────────────── */}
+        <div className="py-3.5 overflow-hidden" style={{ background: 'linear-gradient(135deg, #3d2010, #2a1508)' }}>
+          <div className="animate-marquee">
+            {[
+              '✦ Clean Ingredients',
+              '·',
+              'Woman Owned',
+              '·',
+              'Small Batch Crafted',
+              '·',
+              'Ships Nationwide',
+              '·',
+              'Paraben Free',
+              '·',
+              'Cruelty Free',
+              '·',
+              'All Natural',
+              '·',
+              'Handpoured with Love',
+              '·',
+              'Clean Ingredients',
+              '·',
+              'Woman Owned',
+              '·',
+              'Small Batch Crafted',
+              '·',
+              'Ships Nationwide',
+              '·',
+              'Paraben Free',
+              '·',
+              'Cruelty Free',
+              '·',
+              'All Natural',
+              '·',
+              'Handpoured with Love',
+              '·',
+            ].map((item, i) => (
+              <span key={i} className="text-coeur-300 text-[10px] uppercase tracking-[0.2em] mx-5 shrink-0 whitespace-nowrap">{item}</span>
+            ))}
+          </div>
+        </div>
+
         {/* ── Brand Promise ─────────────────────────────────────────────── */}
         <section className="py-24 bg-white">
           <div className="max-w-5xl mx-auto px-6">
@@ -243,7 +302,7 @@ const Home = () => {
                       transition={{ duration: 0.5 }}
                       className="w-full h-full"
                     >
-                      <ProductCardImage cardBg={product.cardBg} badge={product.badge} category={product.category} />
+                      <ProductCardImage cardBg={product.cardBg} badge={product.badge} category={product.category} hint={product.hint} />
                     </motion.div>
                   </div>
                   <div className="p-6">
@@ -333,6 +392,49 @@ const Home = () => {
                   </div>
                 </motion.div>
               ))}
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ── Newsletter ────────────────────────────────────────────────── */}
+        <section className="py-20" style={{ background: 'linear-gradient(160deg, #f9f0e6 0%, #f2e6d4 100%)' }}>
+          <div className="max-w-2xl mx-auto px-6 text-center">
+            <motion.div
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+              variants={ANIMATION_VARIANTS.container}
+            >
+              <motion.div variants={ANIMATION_VARIANTS.item} className="w-12 h-12 rounded-full bg-coeur-800 flex items-center justify-center mx-auto mb-6">
+                <Sparkles size={20} className="text-coeur-200" />
+              </motion.div>
+              <motion.h2 variants={ANIMATION_VARIANTS.item} className="text-3xl md:text-4xl font-serif text-coeur-900 mb-3 leading-tight">
+                Join the Ritual
+              </motion.h2>
+              <motion.p variants={ANIMATION_VARIANTS.item} className="text-stone-500 mb-8 leading-relaxed max-w-md mx-auto">
+                Be the first to know about new launches, self-care rituals, and exclusive offers for our community.
+              </motion.p>
+              <motion.form
+                variants={ANIMATION_VARIANTS.item}
+                className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+                onSubmit={(e) => e.preventDefault()}
+              >
+                <input
+                  type="email"
+                  placeholder="your@email.com"
+                  className="flex-1 border border-coeur-200 bg-white rounded-full px-5 py-3.5 text-sm outline-none focus:ring-2 focus:ring-coeur-300 transition shadow-sm"
+                />
+                <motion.button
+                  type="submit"
+                  whileHover={{ scale: 1.04, boxShadow: '0 12px 28px rgba(107,66,38,0.28)' }}
+                  whileTap={{ scale: 0.97 }}
+                  className="px-7 py-3.5 rounded-full text-sm font-semibold text-white whitespace-nowrap shadow-md"
+                  style={{ background: 'linear-gradient(135deg, #6b4226, #4a2e18)' }}
+                >
+                  Subscribe
+                </motion.button>
+              </motion.form>
+              <motion.p variants={ANIMATION_VARIANTS.item} className="text-xs text-stone-400 mt-4">No spam, ever. Unsubscribe anytime.</motion.p>
             </motion.div>
           </div>
         </section>
