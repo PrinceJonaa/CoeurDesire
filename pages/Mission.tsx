@@ -1,10 +1,13 @@
 import React from 'react';
+import { SEO } from '../components/SEO';
 import { motion } from 'framer-motion';
 import { Heart, Sun, Feather } from 'lucide-react';
 
 const Mission = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <>
+      <SEO title="Our Mission" description="CoeurDesire exists to honor the connection between outer beauty and inner healing. Learn about our philosophy of self-love and natural wellness." url="https://coeurdesire.com/mission" />
+      <div className="min-h-screen bg-white">
       {/* Hero */}
       <section className="relative h-[60vh] flex items-center justify-center bg-stone-900 overflow-hidden">
         <img 
@@ -84,6 +87,7 @@ const Mission = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 
