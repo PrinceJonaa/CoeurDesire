@@ -87,7 +87,7 @@ const Mission = () => {
         </div>
       </section>
     </div>
-    </>
+  </>
   );
 };
 
