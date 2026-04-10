@@ -131,10 +131,14 @@ const ProductDetail: React.FC = () => {
 
               {/* CTAs */}
               <div className="flex flex-col sm:flex-row gap-3 my-8">
-                <Link to="/contact" className="flex-1 bg-coeur-800 text-white text-center py-4 rounded-full font-medium hover:bg-coeur-700 transition-colors flex items-center justify-center gap-2 shadow-lg shadow-coeur-200">
-                  <ShoppingBag size={16} /> Inquire to Purchase
+                <Link
+                  to={`/contact?subject=${encodeURIComponent(`Order Inquiry: ${product.name}`)}&product=${product.slug}`}
+                  className="flex-1 text-white text-center py-4 rounded-full font-semibold transition-all flex items-center justify-center gap-2 shadow-lg hover:opacity-90"
+                  style={{ background: 'linear-gradient(135deg, #6b4226, #4a2e18)' }}
+                >
+                  <ShoppingBag size={16} /> Order / Inquire
                 </Link>
-                <a href={`mailto:inquiry@coeurdesire.com?subject=Inquiry: ${encodeURIComponent(product.name)}`}
+                <a href={`mailto:inquiry@coeurdesire.com?subject=Order Inquiry: ${encodeURIComponent(product.name)}&body=Hi, I'm interested in purchasing ${encodeURIComponent(product.name)} ($${product.priceNum}). Please let me know how to proceed.`}
                   className="flex-1 border-2 border-coeur-300 text-coeur-700 text-center py-4 rounded-full font-medium hover:border-coeur-600 hover:bg-coeur-50 transition-all flex items-center justify-center gap-2">
                   Email Directly
                 </a>

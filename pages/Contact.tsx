@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
+import { useSearchParams } from 'react-router-dom';
 import { SEO } from '../components/SEO';
 
 type FormData = { name: string; email: string; subject: string; message: string };
 type Status = 'idle' | 'loading' | 'success' | 'error';
 
 const Contact: React.FC = () => {
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>();
+  const [searchParams] = useSearchParams();
+  const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<FormData>();
   const [status, setStatus] = useState<Status>('idle');
+
+  // Pre-fill from product detail URL params
+  useEffect(() => {
+    const subject = searchParams.get('subject');
+    const productSlug = searchParams.get('product');
+    if (subject) setValue('subject', subject);
+    if (productSlug) setValue('message', `Hi, I'd like to inquire about ordering this product. Please let me know how to proceed.`);
+  }, [searchParams, setValue]);
 
   const onSubmit = async (data: FormData) => {
     setStatus('loading');

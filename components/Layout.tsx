@@ -149,6 +149,25 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       {/* Main Content */}
       <main>{children}</main>
 
+      {/* Mobile Sticky Shop Bar — only shown on mobile, hidden on md+ */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden pb-safe">
+        <div className="flex gap-3 px-4 py-3 bg-white/95 backdrop-blur-md border-t border-coeur-100 shadow-2xl">
+          <Link
+            to="/catalog"
+            className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-full text-xs uppercase tracking-widest font-bold text-white"
+            style={{ background: 'linear-gradient(135deg, #6b4226, #4a2e18)' }}
+          >
+            Shop Collection
+          </Link>
+          <Link
+            to="/contact"
+            className="flex items-center justify-center w-14 rounded-full border-2 border-coeur-300 text-coeur-700 text-xs font-medium shrink-0"
+          >
+            Book
+          </Link>
+        </div>
+      </div>
+
       {/* Footer */}
       <footer className="bg-coeur-900 text-coeur-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
