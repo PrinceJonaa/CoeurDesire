@@ -31,8 +31,8 @@ const Contact: React.FC = () => {
     <>
       <SEO title="Contact" description="Reach out to CoeurDesire for product inquiries, custom orders, or consultations. Email inquiry@coeurdesire.com" url="https://coeurdesire.com/contact" />
 
-      <div className="min-h-screen bg-stone-50 py-24">
-        <div className="max-w-7xl mx-auto px-6">
+      <div className="min-h-screen bg-coeur-50 pt-28 pb-20">
+        <div className="max-w-6xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-0 bg-white rounded-3xl shadow-xl overflow-hidden">
 
             {/* Left panel */}

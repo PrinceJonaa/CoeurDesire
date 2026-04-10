@@ -45,7 +45,7 @@ const Catalog: React.FC = () => {
 
       {/* ── Hero Header ──────────────────────────────────────────────── */}
       <div
-        className="relative pt-36 pb-24 overflow-hidden"
+        className="relative pt-40 pb-24 overflow-hidden"
         style={{ background: 'linear-gradient(160deg, #3d2010 0%, #2a1508 55%, #1e0e06 100%)' }}
       >
         {/* Ambient glows */}

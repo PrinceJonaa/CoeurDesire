@@ -16,12 +16,12 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
-  // Home page has a light cream hero — use dark text; other pages have dark heroes
+  // Pages with light backgrounds need dark nav text; dark-hero pages use light text
   const isHome = location.pathname === '/';
-  const isLightHero = isHome || location.pathname.startsWith('/catalog/');
+  const isLightHero = isHome || location.pathname.startsWith('/catalog/') || location.pathname === '/contact';
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 30);
+    const handleScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -39,14 +39,18 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
   return (
     <div className="min-h-screen bg-coeur-50 font-sans">
+      {/* Announcement Bar */}
+      <div className="fixed top-0 left-0 right-0 z-[60] text-center py-2 text-[11px] uppercase tracking-[0.22em] font-medium text-white" style={{ background: 'linear-gradient(135deg, #3d2010, #563830)' }}>
+        <span className="hidden sm:inline">✦ Free shipping on orders over $75 &nbsp;·&nbsp; </span>
+        <span>Handcrafted in small batches &nbsp;·&nbsp; Ships nationwide ✦</span>
+      </div>
+
       {/* Navbar */}
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        className={`fixed left-0 right-0 z-50 top-[34px] transition-all duration-500 ${
           scrolled
             ? 'bg-coeur-900/95 backdrop-blur-md shadow-lg py-3'
-            : isLightHero
-              ? 'bg-transparent py-5'
-              : 'bg-gradient-to-b from-black/20 to-transparent py-5'
+            : 'bg-transparent py-4'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">

@@ -30,7 +30,7 @@ const ProductDetail: React.FC = () => {
     <>
       <SEO title={product.name} description={product.description} image={product.image} url={`https://coeurdesire.com/catalog/${product.slug}`} type="product" price={String(product.priceNum)} />
 
-      <div className="min-h-screen bg-coeur-50 pb-24 pt-24">
+      <div className="min-h-screen bg-coeur-50 pb-24 pt-28">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="flex items-center gap-2 text-sm text-stone-400 mb-10">
             <button onClick={() => navigate('/catalog')} className="flex items-center gap-1 hover:text-coeur-600 transition-colors">
