@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { ShoppingBag, ArrowRight, Sparkles, Leaf, Star } from 'lucide-react';
 import { PRODUCTS, ANIMATION_VARIANTS } from '../constants';
 import { SEO } from '../components/SEO';
@@ -54,8 +54,13 @@ const ProductCardImage = ({ cardBg, badge, category, hint }: { cardBg?: string; 
 );
 
 const Catalog: React.FC = () => {
-  const [activeFilter, setActiveFilter] = useState<FilterType>('All');
+  const [searchParams] = useSearchParams();
+  const [activeFilter, setActiveFilter] = useState<FilterType>(() => {
+    const f = searchParams.get('filter');
+    return (f === 'Oil' || f === 'Hair') ? f : 'All';
+  });
   const filtered = activeFilter === 'All' ? PRODUCTS : PRODUCTS.filter((p) => p.category === activeFilter);
+  const filterCount = (f: FilterType) => f === 'All' ? PRODUCTS.length : PRODUCTS.filter(p => p.category === f).length;
 
   return (
     <>
@@ -153,7 +158,7 @@ const Catalog: React.FC = () => {
               }`}
               style={activeFilter === f ? { background: 'linear-gradient(135deg, #6b4226, #4a2e18)' } : {}}
             >
-              {f === 'All' ? `All (${PRODUCTS.length})` : f}
+              {f === 'All' ? `All (${filterCount('All')})` : `${f} (${filterCount(f)})`}
             </motion.button>
           ))}
         </div>
@@ -182,6 +187,14 @@ const Catalog: React.FC = () => {
                   >
                     <ProductCardImage cardBg={product.cardBg} badge={product.badge} category={product.category} hint={product.hint} />
                   </motion.div>
+
+                  {/* Hover reveal overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-30 pointer-events-none"
+                    style={{ background: 'rgba(42,21,8,0.18)' }}>
+                    <span className="bg-white/95 backdrop-blur-sm text-coeur-900 text-[11px] uppercase tracking-[0.2em] font-bold px-5 py-2.5 rounded-full shadow-xl translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                      Explore →
+                    </span>
+                  </div>
 
                   {/* Badge */}
                   {product.badge && (
@@ -234,8 +247,8 @@ const Catalog: React.FC = () => {
                       View Details <ArrowRight size={14} />
                     </Link>
                     <Link
-                      to="/contact"
-                      title="Inquire about this product"
+                      to={`/contact?subject=${encodeURIComponent(`Order Inquiry: ${product.name}`)}&product=${product.slug}`}
+                      title="Quick inquire"
                       className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-coeur-200 text-coeur-500 hover:border-coeur-500 hover:text-coeur-700 hover:bg-coeur-50 transition-all duration-300 shrink-0"
                     >
                       <ShoppingBag size={16} />

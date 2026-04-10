@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, ChevronDown, ArrowLeft, Package, Leaf, Truck, ShoppingBag } from 'lucide-react';
+import { Check, ChevronDown, ArrowLeft, Package, Leaf, Truck, ShoppingBag, Star } from 'lucide-react';
 import { PRODUCTS, ANIMATION_VARIANTS } from '../constants';
 import { SEO } from '../components/SEO';
 
@@ -12,6 +12,13 @@ const ProductDetail: React.FC = () => {
   const [activeImage, setActiveImage] = useState(0);
   const [ingredientsOpen, setIngredientsOpen] = useState(false);
   const [howToOpen, setHowToOpen] = useState(false);
+  const [showStickyBar, setShowStickyBar] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setShowStickyBar(window.scrollY > 520);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   if (!product) {
     return (
@@ -129,8 +136,17 @@ const ProductDetail: React.FC = () => {
                 </div>
               ))}
 
+              {/* Social proof micro-badge */}
+              <div className="flex items-center gap-2 my-4 py-3 px-4 bg-coeur-50 rounded-xl border border-coeur-100">
+                <div className="flex gap-0.5">
+                  {[1,2,3,4,5].map(n => <Star key={n} size={12} fill="#d4a96a" className="text-amber-400" />)}
+                </div>
+                <span className="text-xs text-coeur-700 font-medium">5.0 · Loved by our community</span>
+                <span className="ml-auto text-xs text-coeur-500 italic">Responds within 24–48 hrs</span>
+              </div>
+
               {/* CTAs */}
-              <div className="flex flex-col sm:flex-row gap-3 my-8">
+              <div className="flex flex-col sm:flex-row gap-3 my-4">
                 <Link
                   to={`/contact?subject=${encodeURIComponent(`Order Inquiry: ${product.name}`)}&product=${product.slug}`}
                   className="flex-1 text-white text-center py-4 rounded-full font-semibold transition-all flex items-center justify-center gap-2 shadow-lg hover:opacity-90"
@@ -166,7 +182,15 @@ const ProductDetail: React.FC = () => {
                         className="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 flex items-center justify-center relative"
                         style={{ background: p.cardBg || 'linear-gradient(145deg, #f5ede0, #d4a96a)' }}
                       >
-                        <div className="w-5 h-12 bg-white/25 rounded-full border border-white/40" />
+                        <div className="absolute inset-0 opacity-20">
+                          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full border border-white/50" />
+                        </div>
+                        <div className="relative z-10 flex flex-col items-center" style={{ marginTop: '-4px' }}>
+                          <div className="w-3.5 h-4 bg-white/40 rounded-t rounded-b-none" />
+                          <div className="w-7 h-14 bg-white/22 rounded-xl border border-white/40 relative overflow-hidden">
+                            <div className="absolute top-2 left-1 w-0.5 h-6 bg-white/30 rounded-full" />
+                          </div>
+                        </div>
                         <div className="absolute inset-0 bg-gradient-to-br from-white/15 to-black/10" />
                       </div>
                       <div className="flex flex-col justify-center">
@@ -182,6 +206,33 @@ const ProductDetail: React.FC = () => {
           )}
         </div>
       </div>
+
+      {/* Sticky bottom purchase bar — appears after scrolling past hero */}
+      <AnimatePresence>
+        {showStickyBar && product.inStock && (
+          <motion.div
+            initial={{ y: 80, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 80, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed bottom-0 left-0 right-0 z-50 pb-safe"
+          >
+            <div className="bg-white/97 backdrop-blur-md border-t border-coeur-100 shadow-2xl px-5 py-3.5 flex items-center gap-4 max-w-7xl mx-auto">
+              <div className="flex-1 min-w-0">
+                <p className="font-serif text-coeur-900 text-base font-semibold leading-tight truncate">{product.name}</p>
+                <p className="text-amber-600 font-bold text-sm">{product.price}</p>
+              </div>
+              <Link
+                to={`/contact?subject=${encodeURIComponent(`Order Inquiry: ${product.name}`)}&product=${product.slug}`}
+                className="flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold text-white whitespace-nowrap shadow-lg hover:opacity-90 transition-opacity"
+                style={{ background: 'linear-gradient(135deg, #6b4226, #4a2e18)' }}
+              >
+                <ShoppingBag size={14} /> Order Now
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };
