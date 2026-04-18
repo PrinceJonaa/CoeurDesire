@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Calendar } from 'lucide-react';
 
 const navLinks = [
   { name: 'Home', path: '/' },
@@ -167,9 +167,11 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             )}
             <Link
               to="/contact"
-              className={`flex items-center justify-center ${isServicesPage ? 'flex-1 py-3.5' : 'w-14'} rounded-full border-2 border-coeur-300 text-coeur-700 text-xs font-medium shrink-0`}
+              aria-label="Book Now"
+              className={`flex items-center justify-center gap-2 ${isServicesPage ? 'flex-1 py-3.5' : 'px-5 py-3.5'} rounded-full border-2 border-coeur-300 text-coeur-700 text-xs uppercase tracking-widest font-bold shrink-0`}
             >
-              Book Now
+              <Calendar size={16} strokeWidth={2.25} />
+              <span>Book{isServicesPage ? ' Now' : ''}</span>
             </Link>
           </div>
         </div>
