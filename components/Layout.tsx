@@ -41,11 +41,12 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   const mobileIconColor = scrolled ? 'text-coeur-200' : isLightHero ? 'text-coeur-700' : 'text-coeur-200';
 
   return (
-    <div className="min-h-screen bg-coeur-50 font-sans">
+    <div className="min-h-screen bg-coeur-50 font-sans overflow-x-hidden">
       {/* Announcement Bar */}
-      <div className="fixed top-0 left-0 right-0 z-[60] text-center py-2 text-[11px] uppercase tracking-[0.22em] font-medium text-white" style={{ background: 'linear-gradient(135deg, #3d2010, #563830)' }}>
-        <span className="hidden sm:inline">✦ Free shipping on orders over $75 &nbsp;·&nbsp; </span>
-        <span>Handcrafted in small batches &nbsp;·&nbsp; Ships nationwide ✦</span>
+      <div className="fixed top-0 left-0 right-0 z-[60] text-center py-2 px-3 sm:px-4 text-[10px] sm:text-[11px] uppercase tracking-[0.14em] sm:tracking-[0.2em] font-medium text-white overflow-hidden" style={{ background: 'linear-gradient(135deg, #3d2010, #563830)' }}>
+        <span className="block sm:hidden">✦ Small-batch beauty rituals ✦</span>
+        <span className="hidden sm:block lg:hidden">✦ Handcrafted in small batches · Ships nationwide ✦</span>
+        <span className="hidden lg:block">✦ Free shipping on orders over $75 &nbsp;·&nbsp; Handcrafted in small batches &nbsp;·&nbsp; Ships nationwide ✦</span>
       </div>
 
       {/* Navbar */}
@@ -56,19 +57,19 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             : 'bg-transparent py-4'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-3 sm:px-5 lg:px-8 flex items-center justify-between gap-3 sm:gap-6 min-w-0">
           {/* Logo */}
-          <Link to="/" className="flex flex-col leading-none group">
-            <span className={`font-serif text-2xl tracking-wide group-hover:text-gold-400 transition-colors duration-300 ${logoColor}`}>
+          <Link to="/" className="flex min-w-0 flex-1 max-w-[calc(100%-3.5rem)] lg:max-w-[22rem] xl:flex-none xl:max-w-none flex-col leading-none group">
+            <span className={`font-serif text-[1.3rem] sm:text-[1.5rem] xl:text-2xl tracking-[0.02em] sm:tracking-[0.05em] truncate group-hover:text-gold-400 transition-colors duration-300 ${logoColor}`}>
               CoeurDesire
             </span>
-            <span className={`text-[10px] uppercase tracking-widest group-hover:text-gold-400 transition-colors duration-300 ${logoSubColor}`}>
+            <span className={`hidden sm:block text-[9px] sm:text-[10px] uppercase tracking-[0.16em] sm:tracking-[0.22em] group-hover:text-gold-400 transition-colors duration-300 ${logoSubColor}`}>
               Beauty & Healing
             </span>
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden 2xl:flex items-center gap-8">
             {navLinks.map((link) => {
               const isActive = location.pathname === link.path ||
                 (link.path === '/catalog' && location.pathname.startsWith('/catalog'));
@@ -104,7 +105,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
           {/* Mobile Menu Toggle */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className={`md:hidden ${mobileOpen ? 'text-coeur-200' : mobileIconColor} hover:text-gold-400 transition-colors duration-300 p-1`}
+            className={`2xl:hidden ${mobileOpen ? 'text-coeur-200' : mobileIconColor} hover:text-gold-400 transition-colors duration-300 p-1.5 shrink-0`}
             aria-label="Toggle menu"
           >
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}
@@ -119,7 +120,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className="md:hidden bg-coeur-900/98 backdrop-blur-md border-t border-coeur-800 overflow-hidden"
+              className="2xl:hidden bg-coeur-900/98 backdrop-blur-md border-t border-coeur-800 overflow-hidden"
             >
               <nav className="flex flex-col px-6 py-6 gap-1">
                 {navLinks.map((link) => {
@@ -150,7 +151,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       </header>
 
       {/* Main Content */}
-      <main>{children}</main>
+      <main className={`${!isCatalogPage && !isProductDetailPage ? 'pb-28 md:pb-0' : ''}`}>{children}</main>
 
       {/* Mobile Sticky Shop Bar — only shown on mobile, hidden on md+ */}
       {!isCatalogPage && !isProductDetailPage && (
@@ -159,7 +160,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             {!isServicesPage && (
               <Link
                 to="/catalog"
-                className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-full text-xs uppercase tracking-widest font-bold text-white"
+                className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-full text-[11px] uppercase tracking-[0.16em] font-bold text-white text-center"
                 style={{ background: 'linear-gradient(135deg, #6b4226, #4a2e18)' }}
               >
                 Shop Collection
@@ -167,7 +168,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             )}
             <Link
               to="/contact"
-              className={`flex items-center justify-center ${isServicesPage ? 'flex-1 py-3.5' : 'w-14'} rounded-full border-2 border-coeur-300 text-coeur-700 text-xs font-medium shrink-0`}
+              className={`flex items-center justify-center text-center whitespace-nowrap ${isServicesPage ? 'flex-1 py-3.5 px-5' : 'min-w-[96px] px-4 py-3.5'} rounded-full border-2 border-coeur-300 text-coeur-700 text-[11px] uppercase tracking-[0.12em] font-semibold shrink-0`}
             >
               Book Now
             </Link>
@@ -270,11 +271,11 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             </div>
           </div>
 
-          <div className="mt-12 pt-8 border-t border-coeur-800 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div className="mt-12 pt-8 border-t border-coeur-800 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
             <p className="text-xs text-coeur-600 tracking-wide">
               &copy; {new Date().getFullYear()} CoeurDesire. All rights reserved.
             </p>
-            <p className="text-xs text-coeur-700 tracking-widest uppercase">
+            <p className="text-xs text-coeur-700 tracking-[0.18em] uppercase max-w-full break-words">
               Handcrafted with love &amp; intention
             </p>
           </div>

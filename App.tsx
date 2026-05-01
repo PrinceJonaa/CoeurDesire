@@ -37,8 +37,19 @@ const AnimatedRoutes = () => {
   );
 };
 
+const routerBasename = (() => {
+  if (typeof window === 'undefined') return '/';
+
+  const path = window.location.pathname;
+  if (path === '/coeurdesire' || path.startsWith('/coeurdesire/')) {
+    return '/coeurdesire';
+  }
+
+  return '/';
+})();
+
 const App = () => (
-  <Router>
+  <Router basename={routerBasename}>
     <Layout>
       <AnimatedRoutes />
     </Layout>

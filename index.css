@@ -1,5 +1,13 @@
 /* Global styles for CoeurDesire */
 
+html, body {
+  overflow-x: hidden;
+}
+
+#root {
+  overflow-x: hidden;
+}
+
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }

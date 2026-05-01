@@ -8,6 +8,7 @@ export default defineConfig(({ mode }) => {
       server: {
         port: 3000,
         host: '0.0.0.0',
+        allowedHosts: ['azure.tail8d97c2.ts.net'],
       },
       plugins: [react()],
       define: {
