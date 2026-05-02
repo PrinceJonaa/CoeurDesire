@@ -72,7 +72,7 @@ const Home = () => {
       <div className="overflow-hidden">
 
         {/* ── Hero ─────────────────────────────────────────────────────── */}
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 pt-[7rem] pb-24 sm:px-6 sm:pt-[8.5rem] sm:pb-32 md:px-8 md:pt-36 md:pb-24">
           {/* Gradient background */}
           <div
             className="absolute inset-0 z-0"
@@ -104,33 +104,33 @@ const Home = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            className="relative z-10 text-center px-6 max-w-4xl mx-auto"
+            className="relative z-10 mx-auto w-full max-w-4xl text-center"
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.85 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.1 }}
-              className="inline-flex items-center gap-2 mb-6 px-6 py-2 border border-coeur-700/25 rounded-full bg-white/40 backdrop-blur-sm"
+              className="inline-flex max-w-full items-center justify-center gap-2 mb-4 px-3.5 py-2 sm:mb-5 sm:px-6 border border-coeur-700/25 rounded-full bg-white/40 backdrop-blur-sm"
             >
               <Sparkles size={12} className="text-coeur-700" />
-              <span className="text-coeur-800 uppercase tracking-[0.22em] text-xs font-bold">Woman Owned • Soul Centered</span>
+              <span className="text-coeur-800 uppercase tracking-[0.14em] text-[9px] font-bold sm:text-xs sm:tracking-[0.22em]">Woman Owned • Soul Centered</span>
             </motion.div>
 
             <motion.h1
               initial={{ y: 40, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.25, duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-              className="text-6xl md:text-8xl font-serif text-coeur-900 mb-6 leading-[1.05] tracking-tight"
+              className="mb-4 font-serif text-[2.35rem] leading-[0.98] tracking-tight text-coeur-900 sm:mb-5 sm:text-6xl md:text-8xl"
             >
-              Radiate from <br />
-              the <em className="not-italic" style={{ color: '#b8894a' }}>Heart</em>
+              <span className="block">Radiate from</span>
+              <span className="block">the <em className="not-italic" style={{ color: '#b8894a' }}>Heart</em></span>
             </motion.h1>
 
             <motion.p
               initial={{ y: 24, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.8 }}
-              className="text-lg md:text-xl text-stone-600 font-light mb-10 max-w-2xl mx-auto leading-relaxed"
+              className="mx-auto mb-7 max-w-md px-1 text-[15px] font-light leading-7 text-stone-700 sm:mb-8 sm:max-w-lg sm:px-0 sm:text-lg md:text-xl"
             >
               Luxury natural hair care, sacred oils, and wellness rituals designed to harmonize your outer glow with your inner desire.
             </motion.p>
@@ -139,29 +139,27 @@ const Home = () => {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.55 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+              className="flex w-full flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4"
             >
-              <Link to="/catalog">
-                <motion.button
-                  whileHover={{ scale: 1.04, boxShadow: '0 16px 40px rgba(184,137,74,0.35)' }}
-                  whileTap={{ scale: 0.97 }}
-                  className="flex items-center gap-2.5 px-8 py-4 rounded-full text-sm uppercase tracking-widest font-semibold text-white shadow-lg transition-all"
+              <motion.div className="w-full sm:w-auto">
+                <Link
+                  to="/catalog"
+                  className="flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-[12px] font-semibold uppercase tracking-[0.18em] text-white shadow-lg transition-all sm:w-auto sm:px-8 sm:py-4 sm:text-sm sm:tracking-widest"
                   style={{ background: 'linear-gradient(135deg, #6b4226, #4a2e18)' }}
                 >
                   <ShoppingBag size={16} />
                   Shop the Collection
-                </motion.button>
-              </Link>
-              <Link to="/services">
-                <motion.button
-                  whileHover={{ scale: 1.04 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="flex items-center gap-2.5 px-8 py-4 rounded-full text-sm uppercase tracking-widest font-semibold border-2 transition-all bg-white/50 backdrop-blur-sm"
-                  style={{ borderColor: 'rgba(107,66,38,0.4)', color: '#4a2e18' }}
+                </Link>
+              </motion.div>
+              <motion.div className="w-full sm:w-auto">
+                <Link
+                  to="/services"
+                  className="flex w-full items-center justify-center gap-2 rounded-full border-2 px-6 py-3.5 text-[12px] font-semibold uppercase tracking-[0.18em] transition-all backdrop-blur-sm sm:w-auto sm:px-8 sm:py-4 sm:text-sm sm:tracking-widest"
+                  style={{ borderColor: 'rgba(107,66,38,0.4)', color: '#4a2e18', background: 'rgba(255,255,255,0.5)' }}
                 >
                   Explore Services <ArrowRight size={15} />
-                </motion.button>
-              </Link>
+                </Link>
+              </motion.div>
             </motion.div>
           </motion.div>
 
@@ -182,9 +180,21 @@ const Home = () => {
           </motion.div>
         </section>
 
-        {/* ── Trust Marquee ─────────────────────────────────────────────── */}
+        {/* ── Trust Marquee ──────────────────────────────────────────────── */}
         <div className="py-3.5 overflow-hidden" style={{ background: 'linear-gradient(135deg, #3d2010, #2a1508)' }}>
-          <div className="animate-marquee">
+          <div className="sm:hidden px-4">
+            <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-center">
+              {['Clean Ingredients', 'Woman Owned', 'Small Batch Crafted', 'Ships Nationwide'].map((item) => (
+                <span
+                  key={item}
+                  className="rounded-full border border-coeur-700/70 px-3 py-1 text-[10px] uppercase tracking-[0.16em] text-coeur-300"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div className="hidden sm:flex animate-marquee" aria-label="Brand values marquee">
             {[
               '✦ Clean Ingredients',
               '·',
@@ -331,13 +341,13 @@ const Home = () => {
           <motion.div
             animate={{ scale: [1, 1.15, 1], opacity: [0.12, 0.2, 0.12] }}
             transition={{ duration: 12, repeat: Infinity }}
-            className="absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full blur-3xl"
+            className="absolute -top-32 -left-32 hidden h-[500px] w-[500px] rounded-full blur-3xl md:block"
             style={{ background: '#c9935a' }}
           />
           <motion.div
             animate={{ scale: [1.1, 1, 1.1], opacity: [0.08, 0.15, 0.08] }}
             transition={{ duration: 15, repeat: Infinity, delay: 3 }}
-            className="absolute -bottom-32 -right-32 w-[400px] h-[400px] rounded-full blur-3xl"
+            className="absolute -bottom-32 -right-32 hidden h-[400px] w-[400px] rounded-full blur-3xl md:block"
             style={{ background: '#e090a0' }}
           />
 

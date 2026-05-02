@@ -41,12 +41,12 @@ const Contact: React.FC = () => {
     <>
       <SEO title="Contact" description="Reach out to CoeurDesire for product inquiries, custom orders, or consultations. Email inquiry@coeurdesire.com" url="https://coeurdesire.com/contact" />
 
-      <div className="min-h-screen bg-coeur-50 pt-28 pb-20">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-0 bg-white rounded-3xl shadow-xl overflow-hidden">
+      <div className="min-h-screen bg-coeur-50 pt-32 pb-28 md:pb-20">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <div className="flex flex-col overflow-hidden rounded-3xl bg-white shadow-xl min-[1200px]:grid min-[1200px]:grid-cols-2">
 
             {/* Left panel */}
-            <div className="bg-coeur-900 p-10 md:p-12 text-white flex flex-col justify-between relative overflow-hidden">
+            <div className="relative flex w-full min-w-0 flex-col justify-between overflow-hidden bg-coeur-900 p-7 text-white sm:p-8 md:p-10 min-[1200px]:p-12">
               <motion.div animate={{ scale: [1, 1.5, 1], rotate: [0, 90, 0] }} transition={{ duration: 20, repeat: Infinity }}
                 className="absolute -top-40 -right-40 w-96 h-96 bg-coeur-600 rounded-full opacity-30 blur-3xl" />
               <div className="relative z-10">
@@ -60,15 +60,15 @@ const Contact: React.FC = () => {
                     { icon: Phone, label: 'Phone', value: '+1 (555) 123-4567', href: 'tel:+15551234567' },
                     { icon: MapPin, label: 'Location', value: 'Remote & Nationwide', href: undefined },
                   ].map(({ icon: Icon, label, value, href }) => (
-                    <div key={label} className="flex items-center gap-4">
+                    <div key={label} className="flex items-start gap-4">
                       <div className="w-10 h-10 rounded-full bg-coeur-800 flex items-center justify-center flex-shrink-0">
                         <Icon size={18} className="text-coeur-300" />
                       </div>
-                      <div>
+                      <div className="min-w-0 flex-1">
                         <p className="text-xs text-coeur-400 uppercase tracking-widest">{label}</p>
                         {href
-                          ? <a href={href} className="font-serif text-lg hover:text-coeur-300 transition-colors">{value}</a>
-                          : <p className="font-serif text-lg">{value}</p>}
+                          ? <a href={href} className="block break-all font-serif text-lg leading-tight hover:text-coeur-300 transition-colors">{value}</a>
+                          : <p className="font-serif text-lg leading-tight">{value}</p>}
                       </div>
                     </div>
                   ))}
@@ -78,7 +78,7 @@ const Contact: React.FC = () => {
             </div>
 
             {/* Right form */}
-            <div className="p-10 md:p-12">
+            <div className="w-full min-w-0 p-7 sm:p-8 md:p-10 min-[1200px]:p-12">
               <h3 className="font-serif text-3xl text-coeur-900 mb-2">Send an Inquiry</h3>
               <p className="text-stone-400 text-sm mb-8">All fields marked * are required.</p>
 
@@ -91,7 +91,7 @@ const Contact: React.FC = () => {
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                     <div>
                       <label className="block text-xs text-stone-500 uppercase tracking-widest mb-1.5">Name *</label>
                       <input {...register('name', { required: 'Name is required' })}

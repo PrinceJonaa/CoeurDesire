@@ -34,6 +34,13 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileOpen]);
+
   const logoColor = scrolled ? 'text-coeur-50' : isLightHero ? 'text-coeur-900' : 'text-coeur-50';
   const logoSubColor = scrolled ? 'text-coeur-300' : isLightHero ? 'text-coeur-600' : 'text-coeur-300';
   const linkColor = scrolled ? 'text-coeur-200' : isLightHero ? 'text-coeur-700' : 'text-coeur-200';
@@ -43,24 +50,24 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   return (
     <div className="min-h-screen bg-coeur-50 font-sans overflow-x-hidden">
       {/* Announcement Bar */}
-      <div className="fixed top-0 left-0 right-0 z-[60] text-center py-2 px-3 sm:px-4 text-[10px] sm:text-[11px] uppercase tracking-[0.14em] sm:tracking-[0.2em] font-medium text-white overflow-hidden" style={{ background: 'linear-gradient(135deg, #3d2010, #563830)' }}>
-        <span className="block sm:hidden">✦ Small-batch beauty rituals ✦</span>
-        <span className="hidden sm:block lg:hidden">✦ Handcrafted in small batches · Ships nationwide ✦</span>
+      <div className="fixed top-0 left-0 right-0 z-[60] overflow-hidden px-3 py-2 text-center text-[10px] font-medium uppercase tracking-[0.12em] text-white sm:px-4 sm:text-[11px] sm:tracking-[0.2em]" style={{ background: 'linear-gradient(135deg, #3d2010, #563830)' }}>
+        <span className="block whitespace-nowrap sm:hidden">✦ Small-batch beauty rituals ✦</span>
+        <span className="hidden whitespace-nowrap sm:block lg:hidden">✦ Handcrafted in small batches · Ships nationwide ✦</span>
         <span className="hidden lg:block">✦ Free shipping on orders over $75 &nbsp;·&nbsp; Handcrafted in small batches &nbsp;·&nbsp; Ships nationwide ✦</span>
       </div>
 
       {/* Navbar */}
       <header
         className={`fixed left-0 right-0 z-50 top-[34px] transition-all duration-500 ${
-          scrolled
+          scrolled || mobileOpen
             ? 'bg-coeur-900/95 backdrop-blur-md shadow-lg py-3'
             : 'bg-transparent py-4'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-3 sm:px-5 lg:px-8 flex items-center justify-between gap-3 sm:gap-6 min-w-0">
+        <div className="max-w-7xl mx-auto px-4 sm:px-5 lg:px-8 flex items-center justify-between gap-2.5 sm:gap-6 min-w-0">
           {/* Logo */}
-          <Link to="/" className="flex min-w-0 flex-1 max-w-[calc(100%-3.5rem)] lg:max-w-[22rem] xl:flex-none xl:max-w-none flex-col leading-none group">
-            <span className={`font-serif text-[1.3rem] sm:text-[1.5rem] xl:text-2xl tracking-[0.02em] sm:tracking-[0.05em] truncate group-hover:text-gold-400 transition-colors duration-300 ${logoColor}`}>
+          <Link to="/" className="flex min-w-0 flex-1 max-w-[calc(100%-3.25rem)] lg:max-w-[22rem] min-[1400px]:flex-none min-[1400px]:max-w-none flex-col justify-center leading-none group pr-1.5">
+            <span className={`font-serif text-[1.1rem] sm:text-[1.5rem] min-[1400px]:text-2xl tracking-[0.01em] sm:tracking-[0.05em] truncate group-hover:text-gold-400 transition-colors duration-300 ${logoColor}`}>
               CoeurDesire
             </span>
             <span className={`hidden sm:block text-[9px] sm:text-[10px] uppercase tracking-[0.16em] sm:tracking-[0.22em] group-hover:text-gold-400 transition-colors duration-300 ${logoSubColor}`}>
@@ -69,7 +76,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden 2xl:flex items-center gap-8">
+          <nav className="hidden min-[1400px]:flex items-center gap-8">
             {navLinks.map((link) => {
               const isActive = location.pathname === link.path ||
                 (link.path === '/catalog' && location.pathname.startsWith('/catalog'));
@@ -105,8 +112,9 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
           {/* Mobile Menu Toggle */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className={`2xl:hidden ${mobileOpen ? 'text-coeur-200' : mobileIconColor} hover:text-gold-400 transition-colors duration-300 p-1.5 shrink-0`}
+            className={`flex h-10 w-10 items-center justify-center rounded-full min-[1400px]:hidden ${mobileOpen ? 'text-coeur-200' : mobileIconColor} hover:text-gold-400 transition-colors duration-300 shrink-0`}
             aria-label="Toggle menu"
+            aria-expanded={mobileOpen}
           >
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -115,46 +123,73 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         {/* Mobile Nav Drawer */}
         <AnimatePresence>
           {mobileOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className="2xl:hidden bg-coeur-900/98 backdrop-blur-md border-t border-coeur-800 overflow-hidden"
-            >
-              <nav className="flex flex-col px-6 py-6 gap-1">
-                {navLinks.map((link) => {
-                  const isActive = location.pathname === link.path ||
-                    (link.path === '/catalog' && location.pathname.startsWith('/catalog'));
-                  return (
+            <>
+              <motion.button
+                type="button"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="fixed inset-0 z-[55] min-[1400px]:hidden bg-coeur-950/70 backdrop-blur-sm"
+                onClick={() => setMobileOpen(false)}
+                aria-label="Close menu overlay"
+              />
+              <motion.div
+                initial={{ opacity: 0, y: -24 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -24 }}
+                transition={{ duration: 0.28, ease: 'easeOut' }}
+                className="fixed inset-x-0 top-[94px] bottom-0 z-[60] min-[1400px]:hidden overflow-y-auto bg-coeur-950/96 px-6 pb-[calc(2.5rem+env(safe-area-inset-bottom,0px))] pt-6 backdrop-blur-xl"
+              >
+                <nav className="mx-auto flex min-h-full w-full max-w-md flex-col justify-between gap-8">
+                  <div className="flex flex-col gap-1">
+                    {navLinks.map((link) => {
+                      const isActive = location.pathname === link.path ||
+                        (link.path === '/catalog' && location.pathname.startsWith('/catalog'));
+                      return (
+                        <Link
+                          key={link.path}
+                          to={link.path}
+                          className={`py-4 text-base uppercase tracking-[0.26em] border-b border-coeur-800/80 last:border-0 transition-colors duration-300 ${
+                            isActive ? 'text-gold-400' : 'text-coeur-100 hover:text-gold-400'
+                          }`}
+                        >
+                          {link.name}
+                        </Link>
+                      );
+                    })}
+                  </div>
+
+                  <div className="space-y-6 pb-safe">
                     <Link
-                      key={link.path}
-                      to={link.path}
-                      className={`py-3 text-sm uppercase tracking-widest border-b border-coeur-800 last:border-0 transition-colors duration-300 ${
-                        isActive ? 'text-gold-400' : 'text-coeur-200 hover:text-gold-400'
-                      }`}
+                      to="/contact"
+                      className="flex w-full items-center justify-center rounded-full bg-coeur-700 px-6 py-4 text-sm uppercase tracking-[0.22em] font-medium text-coeur-50 transition-all duration-300 hover:bg-coeur-600"
                     >
-                      {link.name}
+                      Book Now
                     </Link>
-                  );
-                })}
-                <Link
-                  to="/contact"
-                  className="mt-4 py-3 text-center bg-coeur-700 hover:bg-coeur-600 text-coeur-50 text-sm uppercase tracking-widest rounded-full transition-all duration-300"
-                >
-                  Book Now
-                </Link>
-              </nav>
-            </motion.div>
+
+                    <div className="border-t border-coeur-800/80 pt-6 text-left">
+                      <p className="mb-3 text-[10px] uppercase tracking-[0.28em] text-coeur-400">Contact</p>
+                      <a
+                        href="mailto:inquiry@coeurdesire.com"
+                        className="block break-all font-serif text-xl leading-tight text-coeur-50"
+                      >
+                        inquiry@coeurdesire.com
+                      </a>
+                    </div>
+                  </div>
+                </nav>
+              </motion.div>
+            </>
           )}
         </AnimatePresence>
       </header>
 
       {/* Main Content */}
-      <main className={`${!isCatalogPage && !isProductDetailPage ? 'pb-28 md:pb-0' : ''}`}>{children}</main>
+      <main className={`${!isCatalogPage && !isProductDetailPage ? 'pb-32 md:pb-0' : ''}`}>{children}</main>
 
       {/* Mobile Sticky Shop Bar — only shown on mobile, hidden on md+ */}
-      {!isCatalogPage && !isProductDetailPage && (
+      {!isCatalogPage && !isProductDetailPage && !mobileOpen && (
         <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden pb-safe">
           <div className="flex gap-3 px-4 py-3 bg-white/95 backdrop-blur-md border-t border-coeur-100 shadow-2xl">
             {!isServicesPage && (
