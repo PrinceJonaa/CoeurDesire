@@ -255,6 +255,7 @@ export default function AdminApp() {
   const [checked,setChecked]=useState(false);
   const [role,setRole]=useState<string|null>(null);
   const [authorized,setAuthorized]=useState(false);
+  const [verifiedUserId,setVerifiedUserId]=useState<string|null>(null);
   useEffect(()=>{
     if(!supabase) return;
     let active=true;
@@ -264,15 +265,15 @@ export default function AdminApp() {
   },[]);
   useEffect(()=>{
     if(!supabase||!checked)return;
-    if(!session){setRole(null);setAuthorized(true);return;}
+    if(!session){setRole(null);setVerifiedUserId(null);setAuthorized(true);return;}
     let active=true;setAuthorized(false);
     void supabase.from('admin_users').select('role').eq('user_id',session.user.id).maybeSingle().then(({data})=>{
-      if(active){setRole(data?.role || null);setAuthorized(true);}
+      if(active){setRole(data?.role || null);setVerifiedUserId(session.user.id);setAuthorized(true);}
     });
     return()=>{active=false;};
   },[session?.user.id,checked]);
   if(!supabase)return <SetupNotice/>;
-  if(!checked||!authorized)return <div className="flex min-h-screen items-center justify-center bg-[#fdf8f6]"><Loader2 className="animate-spin" size={26}/></div>;
+  if(!checked||!authorized||(session && verifiedUserId!==session.user.id))return <div className="flex min-h-screen items-center justify-center bg-[#fdf8f6]"><Loader2 className="animate-spin" size={26}/></div>;
   if(!session)return <Login onLogin={async(email,password)=>{const {error}=await supabase.auth.signInWithPassword({email,password});return error?.message||null;}}/>;
   if(!role)return <div className="flex min-h-screen items-center justify-center bg-[#fdf8f6] p-5"><div className={panel+' max-w-md space-y-3'}><CircleAlert className="text-amber-700"/><h1 className="font-serif text-2xl">Access not granted</h1><p className="text-sm text-stone-500">This account is signed in but has not been authorized to manage CoeurDesire. Ask the developer to grant access.</p><button className={button+' border'} onClick={()=>void supabase.auth.signOut()}>Sign out</button></div></div>;
   return <AdminWorkspace session={session} role={role}/>;
