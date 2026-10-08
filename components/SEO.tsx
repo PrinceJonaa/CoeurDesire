@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, type FC } from 'react';
 
 interface SEOProps {
   title: string;
@@ -9,7 +9,7 @@ interface SEOProps {
   price?: string;
 }
 
-export const SEO: React.FC<SEOProps> = ({ title, description, image, url, type = 'website', price }) => {
+export const SEO: FC<SEOProps> = ({ title, description, image, url, type = 'website', price }) => {
   useEffect(() => {
     const fullTitle = `${title} | CoeurDesire`;
     document.title = fullTitle;

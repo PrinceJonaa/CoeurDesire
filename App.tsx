@@ -26,7 +26,7 @@ const AnimatedRoutes = () => {
   const location = useLocation();
   return (
     <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
+      <Routes location={location}>
         <Route path="/" element={<PageTransition><Home /></PageTransition>} />
         <Route path="/catalog" element={<PageTransition><Catalog /></PageTransition>} />
         <Route path="/catalog/:slug" element={<PageTransition><ProductDetail /></PageTransition>} />
