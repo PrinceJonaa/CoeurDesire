@@ -51,7 +51,7 @@ type EditorProps = { value: ProductRow; onChange: (p: ProductRow) => void; onSav
  onDelete: () => Promise<void>; onBack: () => void; onUpload: (file: File) => Promise<void>;
  busy: boolean; error: string | null; success: string | null; };
 function ProductEditor({ value, onChange, onSave, onDelete, onBack, onUpload, busy, error, success }: EditorProps) {
-  const set = <K extends keyof ProductRow>(key: K, data: ProductRow[K]) => onChange({ ...value, [key]: data });
+  const set = <K extends keyof ProductRow,>(key: K, data: ProductRow[K]) => onChange({ ...value, [key]: data });
   const [uploading, setUploading] = useState(false);
   const setImageOrder = (index: number, direction: number) => {
     const dest = index + direction; if (dest < 0 || dest >= value.images.length) return;
@@ -259,7 +259,7 @@ export default function AdminApp() {
     if(!supabase) return;
     let active=true;
     void supabase.auth.getSession().then(({data})=>{if(active){setSession(data.session);setChecked(true);}});
-    const {data:{subscription}}=supabase.auth.onAuthStateChange((_event,next)=>{if(active){setSession(next);setAuthorized(false);}});
+    const {data:{subscription}}=supabase.auth.onAuthStateChange((_event,next)=>{if(active){setSession(next);if(!next){setRole(null);setAuthorized(true);}}});
     return()=>{active=false;subscription.unsubscribe();};
   },[]);
   useEffect(()=>{

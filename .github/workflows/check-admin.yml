@@ -1,0 +1,18 @@
+name: Validate admin & storefront
+on:
+  pull_request:
+  push:
+    branches: [feat/client-admin-m1-m2]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm run build

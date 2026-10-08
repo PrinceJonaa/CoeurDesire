@@ -196,6 +196,7 @@ const ProductDetail: React.FC = () => {
                             <div className="absolute top-2 left-1 w-0.5 h-6 bg-white/30 rounded-full" />
                           </div>
                         </div>
+                        {p.image && <img src={p.image} alt="" className="absolute inset-0 h-full w-full object-cover" />}
                         <div className="absolute inset-0 bg-gradient-to-br from-white/15 to-black/10" />
                       </div>
                       <div className="flex flex-col justify-center">

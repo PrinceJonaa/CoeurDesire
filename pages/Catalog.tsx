@@ -7,7 +7,7 @@ import { useProducts } from '../components/ProductsProvider';
 import { SEO } from '../components/SEO';
 
 type FilterType = 'All' | 'Oil' | 'Hair' | 'Accessory';
-const FILTERS: FilterType[] = ['All', 'Oil', 'Hair'];
+const FILTERS: FilterType[] = ['All', 'Oil', 'Hair', 'Accessory'];
 
 // Product card gradient image
 const ProductCardImage = ({ cardBg, badge, category, hint, image }: { cardBg?: string; badge?: string; category: string; hint?: string; image?: string }) => (
@@ -60,7 +60,7 @@ const Catalog: React.FC = () => {
   const [searchParams] = useSearchParams();
   const [activeFilter, setActiveFilter] = useState<FilterType>(() => {
     const f = searchParams.get('filter');
-    return (f === 'Oil' || f === 'Hair') ? f : 'All';
+    return (f === 'Oil' || f === 'Hair' || f === 'Accessory') ? f : 'All';
   });
   const filtered = activeFilter === 'All' ? products : products.filter((p) => p.category === activeFilter);
   const filterCount = (f: FilterType) => f === 'All' ? products.length : products.filter(p => p.category === f).length;
