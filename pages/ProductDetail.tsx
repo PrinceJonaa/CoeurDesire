@@ -14,6 +14,7 @@ const ProductDetail: React.FC = () => {
   const [activeImage, setActiveImage] = useState(0);
   const [ingredientsOpen, setIngredientsOpen] = useState(false);
   const [howToOpen, setHowToOpen] = useState(false);
+  useEffect(() => { setActiveImage(0); }, [slug]);
   const [showStickyBar, setShowStickyBar] = useState(false);
 
   useEffect(() => {
@@ -35,7 +36,8 @@ const ProductDetail: React.FC = () => {
   }
 
   const related = products.filter((p) => p.id !== product.id).slice(0, 2);
-  const images = product.images?.length ? product.images : (product.image ? [product.image] : []);
+  const gallery = (product.images?.length ? product.images : (product.image ? [product.image] : []));
+  const images = gallery.filter(url => !url.startsWith('https://picsum.photos/'));
   const views = images.length ? images.map((_, i) => `Photo ${i + 1}`) : ['Front View', 'Detail', 'Texture'];
 
   return (
@@ -196,7 +198,7 @@ const ProductDetail: React.FC = () => {
                             <div className="absolute top-2 left-1 w-0.5 h-6 bg-white/30 rounded-full" />
                           </div>
                         </div>
-                        {p.image && <img src={p.image} alt="" className="absolute inset-0 h-full w-full object-cover" />}
+                        {p.image && !p.image.startsWith('https://picsum.photos/') && <img src={p.image} alt="" className="absolute inset-0 h-full w-full object-cover" />}
                         <div className="absolute inset-0 bg-gradient-to-br from-white/15 to-black/10" />
                       </div>
                       <div className="flex flex-col justify-center">

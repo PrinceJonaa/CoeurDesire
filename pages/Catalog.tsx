@@ -15,7 +15,7 @@ const ProductCardImage = ({ cardBg, badge, category, hint, image }: { cardBg?: s
     className="w-full h-full relative flex items-center justify-center overflow-hidden"
     style={{ background: cardBg || 'linear-gradient(145deg, #f5ede0, #d4a96a)' }}
   >
-    {image && <img src={image} alt="" loading="lazy" className="absolute inset-0 z-10 h-full w-full object-cover" />}
+    {image && !image.startsWith('https://picsum.photos/') && <img src={image} alt="" loading="lazy" className="absolute inset-0 z-10 h-full w-full object-cover" />}
     {/* Background decorative rings */}
     <div className="absolute inset-0 opacity-25 pointer-events-none">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-52 h-52 rounded-full border border-white/60" />
@@ -255,6 +255,15 @@ const Catalog: React.FC = () => {
                     >
                       View Details <ArrowRight size={14} />
                     </Link>
+                    {product.purchaseUrl ? (
+                    <a
+                      href={product.purchaseUrl} target="_blank" rel="noopener noreferrer"
+                      title="Buy product"
+                      className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-coeur-200 text-coeur-500 hover:border-coeur-500 hover:text-coeur-700 hover:bg-coeur-50 transition-all duration-300 shrink-0"
+                    >
+                      <ShoppingBag size={16} />
+                    </a>
+                    ) : (
                     <Link
                       to={`/contact?subject=${encodeURIComponent(`Order Inquiry: ${product.name}`)}&product=${product.slug}`}
                       title="Quick inquire"
@@ -262,6 +271,7 @@ const Catalog: React.FC = () => {
                     >
                       <ShoppingBag size={16} />
                     </Link>
+                    )}
                   </div>
                 </div>
               </motion.article>
