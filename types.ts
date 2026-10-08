@@ -18,6 +18,7 @@ export interface ProductItem {
   benefits: string[];
   inStock: boolean;
   badge?: string;
+  purchaseUrl?: string;
 }
 
 export interface ServiceItem {

@@ -2,18 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ShoppingBag, ArrowRight, Sparkles, Leaf, Star } from 'lucide-react';
-import { PRODUCTS, ANIMATION_VARIANTS } from '../constants';
+import { ANIMATION_VARIANTS } from '../constants';
+import { useProducts } from '../components/ProductsProvider';
 import { SEO } from '../components/SEO';
 
 type FilterType = 'All' | 'Oil' | 'Hair' | 'Accessory';
-const FILTERS: FilterType[] = ['All', 'Oil', 'Hair'];
+const FILTERS: FilterType[] = ['All', 'Oil', 'Hair', 'Accessory'];
 
 // Product card gradient image
-const ProductCardImage = ({ cardBg, badge, category, hint }: { cardBg?: string; badge?: string; category: string; hint?: string }) => (
+const ProductCardImage = ({ cardBg, badge, category, hint, image }: { cardBg?: string; badge?: string; category: string; hint?: string; image?: string }) => (
   <div
     className="w-full h-full relative flex items-center justify-center overflow-hidden"
     style={{ background: cardBg || 'linear-gradient(145deg, #f5ede0, #d4a96a)' }}
   >
+    {image && !image.startsWith('https://picsum.photos/') && <img src={image} alt="" loading="lazy" className="absolute inset-0 z-10 h-full w-full object-cover" />}
     {/* Background decorative rings */}
     <div className="absolute inset-0 opacity-25 pointer-events-none">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-52 h-52 rounded-full border border-white/60" />
@@ -54,13 +56,14 @@ const ProductCardImage = ({ cardBg, badge, category, hint }: { cardBg?: string; 
 );
 
 const Catalog: React.FC = () => {
+  const { products, loading, error } = useProducts();
   const [searchParams] = useSearchParams();
   const [activeFilter, setActiveFilter] = useState<FilterType>(() => {
     const f = searchParams.get('filter');
-    return (f === 'Oil' || f === 'Hair') ? f : 'All';
+    return (f === 'Oil' || f === 'Hair' || f === 'Accessory') ? f : 'All';
   });
-  const filtered = activeFilter === 'All' ? PRODUCTS : PRODUCTS.filter((p) => p.category === activeFilter);
-  const filterCount = (f: FilterType) => f === 'All' ? PRODUCTS.length : PRODUCTS.filter(p => p.category === f).length;
+  const filtered = activeFilter === 'All' ? products : products.filter((p) => p.category === activeFilter);
+  const filterCount = (f: FilterType) => f === 'All' ? products.length : products.filter(p => p.category === f).length;
 
   return (
     <>
@@ -176,6 +179,8 @@ const Catalog: React.FC = () => {
               'sm:grid-cols-2 lg:grid-cols-3'
             }`}
           >
+            {loading && <p className="col-span-full text-center text-stone-500">Loading products…</p>}
+            {error && <p role="alert" className="col-span-full text-center text-red-700">{error}</p>}
             {filtered.map((product) => (
               <motion.article
                 key={product.id}
@@ -189,7 +194,7 @@ const Catalog: React.FC = () => {
                     transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                     className="w-full h-full"
                   >
-                    <ProductCardImage cardBg={product.cardBg} badge={product.badge} category={product.category} hint={product.hint} />
+                    <ProductCardImage cardBg={product.cardBg} badge={product.badge} category={product.category} hint={product.hint} image={product.image} />
                   </motion.div>
 
                   {/* Hover reveal overlay */}
@@ -250,6 +255,15 @@ const Catalog: React.FC = () => {
                     >
                       View Details <ArrowRight size={14} />
                     </Link>
+                    {product.purchaseUrl ? (
+                    <a
+                      href={product.purchaseUrl} target="_blank" rel="noopener noreferrer"
+                      title="Buy product"
+                      className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-coeur-200 text-coeur-500 hover:border-coeur-500 hover:text-coeur-700 hover:bg-coeur-50 transition-all duration-300 shrink-0"
+                    >
+                      <ShoppingBag size={16} />
+                    </a>
+                    ) : (
                     <Link
                       to={`/contact?subject=${encodeURIComponent(`Order Inquiry: ${product.name}`)}&product=${product.slug}`}
                       title="Quick inquire"
@@ -257,6 +271,7 @@ const Catalog: React.FC = () => {
                     >
                       <ShoppingBag size={16} />
                     </Link>
+                    )}
                   </div>
                 </div>
               </motion.article>

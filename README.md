@@ -33,6 +33,12 @@
 - **Email:** Cloudflare Email Routing → inquiry@coeurdesire.com
 - **KV Storage:** Cloudflare KV (inquiry form submissions)
 
+## Client admin (M1 + M2)
+
+The private admin area is served at `/admin` after Supabase is configured. It supports staff login, product creation/editing, draft or published status, photos, availability and optional HTTPS purchase URLs. The storefront retains its inquiry checkout by default.
+
+**Setup, SQL migration, client invitation and security checklist:** [docs/ADMIN_SETUP.md](docs/ADMIN_SETUP.md). The admin system is not usable until the business Supabase project is provisioned; publishing the code alone does not create an authorized client account.
+
 ## Run Locally
 
 ```bash

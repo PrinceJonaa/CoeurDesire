@@ -1,7 +1,8 @@
 import React from 'react';
 import { SEO } from '../components/SEO';
 import { motion } from 'framer-motion';
-import { ANIMATION_VARIANTS, PRODUCTS, TESTIMONIALS } from '../constants';
+import { ANIMATION_VARIANTS, TESTIMONIALS } from '../constants';
+import { useProducts } from '../components/ProductsProvider';
 import { ArrowRight, Star, Sparkles, ShoppingBag, Leaf } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -19,12 +20,13 @@ const BotanicalRing = ({ className }: { className?: string }) => (
 );
 
 // Product card gradient image placeholder
-const ProductCardImage = ({ cardBg, badge, category, hint }: { cardBg?: string; badge?: string; category: string; hint?: string }) => (
+const ProductCardImage = ({ cardBg, badge, category, hint, image }: { cardBg?: string; badge?: string; category: string; hint?: string; image?: string }) => (
   <div
     className="w-full h-full relative flex items-center justify-center overflow-hidden"
     style={{ background: cardBg || 'linear-gradient(145deg, #f5ede0, #d4a96a)' }}
   >
-    {/* Decorative rings */}
+    {image && !image.startsWith('https://picsum.photos/') && <img src={image} alt="" loading="lazy" className="absolute inset-0 z-10 h-full w-full object-cover" />}
+  {/* Decorative rings */}
     <div className="absolute inset-0 opacity-25 pointer-events-none">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-52 h-52 rounded-full border border-white/60" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-36 rounded-full border border-white/45" />
@@ -66,6 +68,7 @@ const ProductCardImage = ({ cardBg, badge, category, hint }: { cardBg?: string; 
 );
 
 const Home = () => {
+  const { products, loading, error } = useProducts();
   return (
     <>
       <SEO title="Home" description="CoeurDesire is a luxury beauty and wellness brand offering natural hair care oils, scented products, and self-love rituals. Ships nationwide." url="https://coeurdesire.com/" />
@@ -297,7 +300,9 @@ const Home = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {PRODUCTS.map((product, i) => (
+              {loading && <p className="col-span-full text-center text-stone-500">Loading collection…</p>}
+              {error && <p className="col-span-full text-center text-red-700">{error}</p>}
+              {products.map((product, i) => (
                 <motion.div
                   key={product.id}
                   initial={{ opacity: 0, y: 28 }}
@@ -312,7 +317,7 @@ const Home = () => {
                       transition={{ duration: 0.5 }}
                       className="w-full h-full"
                     >
-                      <ProductCardImage cardBg={product.cardBg} badge={product.badge} category={product.category} hint={product.hint} />
+                      <ProductCardImage cardBg={product.cardBg} badge={product.badge} category={product.category} hint={product.hint} image={product.image} />
                     </motion.div>
                   </div>
                   <div className="p-6">

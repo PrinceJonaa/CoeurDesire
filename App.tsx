@@ -8,6 +8,8 @@ import ProductDetail from './pages/ProductDetail';
 import Services from './pages/Services';
 import Mission from './pages/Mission';
 import Contact from './pages/Contact';
+import AdminApp from './pages/AdminApp';
+import { ProductsProvider } from './components/ProductsProvider';
 
 const PageTransition: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <motion.div
@@ -24,7 +26,7 @@ const AnimatedRoutes = () => {
   const location = useLocation();
   return (
     <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
+      <Routes location={location}>
         <Route path="/" element={<PageTransition><Home /></PageTransition>} />
         <Route path="/catalog" element={<PageTransition><Catalog /></PageTransition>} />
         <Route path="/catalog/:slug" element={<PageTransition><ProductDetail /></PageTransition>} />
@@ -48,11 +50,15 @@ const routerBasename = (() => {
   return '/';
 })();
 
+const AppContent = () => {
+  const location = useLocation();
+  if (location.pathname.startsWith('/admin')) return <Routes><Route path="/admin/*" element={<AdminApp />} /></Routes>;
+  return <Layout><AnimatedRoutes /></Layout>;
+};
+
 const App = () => (
   <Router basename={routerBasename}>
-    <Layout>
-      <AnimatedRoutes />
-    </Layout>
+    <ProductsProvider><AppContent /></ProductsProvider>
   </Router>
 );
 

@@ -2,16 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, ChevronDown, ArrowLeft, Package, Leaf, Truck, ShoppingBag, Star } from 'lucide-react';
-import { PRODUCTS, ANIMATION_VARIANTS } from '../constants';
+import { ANIMATION_VARIANTS } from '../constants';
+import { useProducts } from '../components/ProductsProvider';
 import { SEO } from '../components/SEO';
 
 const ProductDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  const product = PRODUCTS.find((p) => p.slug === slug);
+  const { products, loading, error } = useProducts();
+  const product = products.find((p) => p.slug === slug);
   const [activeImage, setActiveImage] = useState(0);
   const [ingredientsOpen, setIngredientsOpen] = useState(false);
   const [howToOpen, setHowToOpen] = useState(false);
+  useEffect(() => { setActiveImage(0); }, [slug]);
   const [showStickyBar, setShowStickyBar] = useState(false);
 
   useEffect(() => {
@@ -20,6 +23,8 @@ const ProductDetail: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  if (loading) return <div className="min-h-screen pt-40 text-center text-stone-500">Loading product…</div>;
+  if (error) return <div role="alert" className="min-h-screen pt-40 text-center text-red-700">{error}</div>;
   if (!product) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center text-center px-6 pt-24">
@@ -30,8 +35,10 @@ const ProductDetail: React.FC = () => {
     );
   }
 
-  const related = PRODUCTS.filter((p) => p.id !== product.id).slice(0, 2);
-  const views = ['Front View', 'Detail', 'Texture'];
+  const related = products.filter((p) => p.id !== product.id).slice(0, 2);
+  const gallery = (product.images?.length ? product.images : (product.image ? [product.image] : []));
+  const images = gallery.filter(url => !url.startsWith('https://picsum.photos/'));
+  const views = images.length ? images.map((_, i) => `Photo ${i + 1}`) : ['Front View', 'Detail', 'Texture'];
 
   return (
     <>
@@ -61,6 +68,7 @@ const ProductDetail: React.FC = () => {
                   <div className="absolute top-12 right-16 w-24 h-24 rounded-full border border-white/30" />
                   <div className="absolute bottom-16 left-12 w-16 h-16 rounded-full border border-white/25" />
                 </div>
+                {images.length > 0 && <img src={images[Math.min(activeImage,images.length-1)]} alt={product.name} className="absolute inset-0 z-[15] h-full w-full object-cover" />}
                 {/* Bottle silhouette — larger for detail view */}
                 <div className="absolute inset-0 flex items-center justify-center z-10">
                   <div className="flex flex-col items-center gap-2">
@@ -87,7 +95,7 @@ const ProductDetail: React.FC = () => {
                     className={`flex-1 h-16 rounded-xl border-2 transition-all text-xs font-medium uppercase tracking-wider overflow-hidden ${activeImage === i ? 'border-coeur-500 shadow-md text-coeur-700' : 'border-transparent opacity-50 hover:opacity-80 text-stone-400'}`}
                     style={{ background: product.cardBg || 'linear-gradient(145deg, #f5ede0, #d4a96a)', filter: activeImage === i ? 'none' : 'saturate(0.6)' }}
                   >
-                    <span className="bg-white/60 backdrop-blur-sm px-2 py-1 rounded">{v}</span>
+                    {images.length ? <img src={images[i]} alt={v} className="h-full w-full object-cover" /> : <span className="bg-white/60 backdrop-blur-sm px-2 py-1 rounded">{v}</span>}
                   </button>
                 ))}
               </div>
@@ -147,13 +155,12 @@ const ProductDetail: React.FC = () => {
 
               {/* CTAs */}
               <div className="flex flex-col sm:flex-row gap-3 my-4">
-                <Link
-                  to={`/contact?subject=${encodeURIComponent(`Order Inquiry: ${product.name}`)}&product=${product.slug}`}
+                {product.purchaseUrl ? <a href={product.purchaseUrl} target="_blank" rel="noopener noreferrer"
                   className="flex-1 text-white text-center py-4 rounded-full font-semibold transition-all flex items-center justify-center gap-2 shadow-lg hover:opacity-90"
-                  style={{ background: 'linear-gradient(135deg, #6b4226, #4a2e18)' }}
-                >
-                  <ShoppingBag size={16} /> Order / Inquire
-                </Link>
+                  style={{ background: 'linear-gradient(135deg, #6b4226, #4a2e18)' }}><ShoppingBag size={16}/> Buy Now</a> :
+                  <Link to={`/contact?subject=${encodeURIComponent(`Order Inquiry: ${product.name}`)}&product=${product.slug}`}
+                    className="flex-1 text-white text-center py-4 rounded-full font-semibold transition-all flex items-center justify-center gap-2 shadow-lg hover:opacity-90"
+                    style={{ background: 'linear-gradient(135deg, #6b4226, #4a2e18)' }}><ShoppingBag size={16}/> Order / Inquire</Link>}
                 <a href={`mailto:inquiry@coeurdesire.com?subject=Order Inquiry: ${encodeURIComponent(product.name)}&body=Hi, I'm interested in purchasing ${encodeURIComponent(product.name)} ($${product.priceNum}). Please let me know how to proceed.`}
                   className="flex-1 border-2 border-coeur-300 text-coeur-700 text-center py-4 rounded-full font-medium hover:border-coeur-600 hover:bg-coeur-50 transition-all flex items-center justify-center gap-2">
                   Email Directly
@@ -191,6 +198,7 @@ const ProductDetail: React.FC = () => {
                             <div className="absolute top-2 left-1 w-0.5 h-6 bg-white/30 rounded-full" />
                           </div>
                         </div>
+                        {p.image && !p.image.startsWith('https://picsum.photos/') && <img src={p.image} alt="" className="absolute inset-0 h-full w-full object-cover" />}
                         <div className="absolute inset-0 bg-gradient-to-br from-white/15 to-black/10" />
                       </div>
                       <div className="flex flex-col justify-center">
@@ -222,13 +230,12 @@ const ProductDetail: React.FC = () => {
                 <p className="font-serif text-coeur-900 text-base font-semibold leading-tight truncate">{product.name}</p>
                 <p className="text-amber-600 font-bold text-sm">{product.price}</p>
               </div>
-              <Link
-                to={`/contact?subject=${encodeURIComponent(`Order Inquiry: ${product.name}`)}&product=${product.slug}`}
+              {product.purchaseUrl ? <a href={product.purchaseUrl} target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold text-white whitespace-nowrap shadow-lg hover:opacity-90 transition-opacity"
-                style={{ background: 'linear-gradient(135deg, #6b4226, #4a2e18)' }}
-              >
-                <ShoppingBag size={14} /> Order Now
-              </Link>
+                style={{ background: 'linear-gradient(135deg, #6b4226, #4a2e18)' }}><ShoppingBag size={14}/> Buy Now</a> :
+                <Link to={`/contact?subject=${encodeURIComponent(`Order Inquiry: ${product.name}`)}&product=${product.slug}`}
+                  className="flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold text-white whitespace-nowrap shadow-lg hover:opacity-90 transition-opacity"
+                  style={{ background: 'linear-gradient(135deg, #6b4226, #4a2e18)' }}><ShoppingBag size={14}/> Order Now</Link>}
             </div>
           </motion.div>
         )}
